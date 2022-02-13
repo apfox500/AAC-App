@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 String _textValue = "fillerlmao";
@@ -33,7 +34,8 @@ class _ActionsPageState extends State<ActionsPage> {
               ),
             ),
           ),
-          buttons(_width * .9, _height * .9,
+          Container(height: _height * .045),
+          buttons(_width * .9, _height * .805,
               ["a", "b", "c", "d", "e", "f", "g"], context),
         ],
       ),
@@ -41,9 +43,18 @@ class _ActionsPageState extends State<ActionsPage> {
   }
 }
 
+Color randomColor() {
+  Random random = Random();
+  // Pick a random number in the range [0.0, 1.0)
+  double randomDouble = random.nextDouble();
+
+  return Color((randomDouble * 0xFFFFFF).toInt()).withOpacity(1.0);
+}
+
 Widget buttons(double width, double height, List lables, BuildContext context) {
-  double _defaultHeight = height / 5.54;
-  double _defaultWidth = width / 2.01;
+  double _defaultHeight = height / 6.7;
+  double _defaultWidth = width / 2.05;
+  Random random = Random();
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: <Widget>[
@@ -56,23 +67,27 @@ Widget buttons(double width, double height, List lables, BuildContext context) {
               Container(
                 width: _defaultWidth,
                 height: _defaultHeight,
-                color: Theme.of(context).primaryColor,
+                color: randomColor(),
                 child: TextButton(
                   onPressed: () {},
                   child: Text(lables[0]),
                 ),
               ),
+              Container(height: height * .05),
               Container(
                 width: _defaultWidth,
                 height: _defaultHeight * 2,
+                color: randomColor(),
                 child: TextButton(
                   onPressed: () {},
                   child: Text(lables[1]),
                 ),
               ),
+              Container(height: height * .05),
               Container(
                 width: _defaultWidth,
                 height: _defaultHeight,
+                color: randomColor(),
                 child: TextButton(
                   onPressed: () {},
                   child: Text(lables[2]),
@@ -86,22 +101,27 @@ Widget buttons(double width, double height, List lables, BuildContext context) {
               Container(
                 width: _defaultWidth,
                 height: _defaultHeight,
+                color: randomColor(),
                 child: TextButton(
                   onPressed: () {},
                   child: Text(lables[3]),
                 ),
               ),
+              Container(height: height * .05),
               Container(
                 width: _defaultWidth,
                 height: _defaultHeight,
+                color: randomColor(),
                 child: TextButton(
                   onPressed: () {},
                   child: Text(lables[4]),
                 ),
               ),
+              Container(height: height * .05),
               Container(
                 width: _defaultWidth,
                 height: _defaultHeight * 2,
+                color: randomColor(),
                 child: TextButton(
                   onPressed: () {},
                   child: Text(lables[5]),
@@ -111,9 +131,11 @@ Widget buttons(double width, double height, List lables, BuildContext context) {
           ),
         ],
       ),
+      Container(height: height * .05),
       Container(
-        width: width,
+        width: _defaultWidth * 2.1,
         height: _defaultHeight,
+        color: randomColor(),
         child: TextButton(
           onPressed: () {},
           child: Text(lables[6]),

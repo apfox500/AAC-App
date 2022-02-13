@@ -30,8 +30,10 @@ class _MyAppState extends State<MyApp> {
   double pitch = 1.0;
   double rate = 0.5;
   bool isCurrentLanguageInstalled = false;
-
   TtsState ttsState = TtsState.stopped;
+
+  final AppDataState appData = AppDataState();
+
 
   get isPlaying => ttsState == TtsState.playing;
   get isStopped => ttsState == TtsState.stopped;
@@ -182,27 +184,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _onChange(String text) {
-    setState(() {
-      _newVoiceText = text;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    print(appData);
     return MaterialApp(
       //TODO: Add in a title here
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       //TODO: Add in a better title for the page
-      home: const MyHomePage(title: 'Home Page'),
+      home: MyHomePage(title: 'Home Page', appState: appData),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.appState}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -214,6 +211,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final AppDataState appState;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -249,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 width: MediaQuery.of(context).size.width * .9,
                 height: MediaQuery.of(context).size.height * .15,
-                child: Center(child: Text(appData.text)),
+                child: Center(child: Text(widget.appState.voiceText)),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.blue,
@@ -323,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const CommonSentencesPage()),
+                                MaterialPageRoute(builder: (context) => CommonSentencesPage(appState: widget.appState,)),
                               );
                             },
                             child: const Text("Common Sentences")),

@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'login.dart' show LoginPage;
 import 'dart:async';
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
 import 'package:thoughtspeech/singletons/appdata.dart';
 
 //TODO: Fix slight bug where this wont update across screens(some kind of varaible to pass maybe or a set state call?)
 String _newVoiceText = "";
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -231,6 +239,28 @@ class _MyHomePageState extends State<MyHomePage> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                icon: const Icon(Icons.person),
+                onPressed: () {
+                  //Find if they are logged in
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  FirebaseAuth.instance.userChanges().listen((User? user) {
+                    if (user == null) {
+                      //User is signed out
+                      //Needs to open a login/signup page
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                    } else {
+                      //User is signed in
+                    }
+                  });
+                },
+              ),
+            )
+          ],
         ),
         //Button to make it read aloud? not sure just copying the figma
         //TODO: Implement functionality for this floatingActionButton

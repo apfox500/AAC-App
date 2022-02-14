@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:io' show Platform;
+//import 'package:flutter_tts/flutter_tts.dart';
+//import 'package:flutter/foundation.dart' show kIsWeb;
+//import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
+import 'dart:async';
+import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
+import 'package:thoughtspeech/singletons/appdata.dart';
 
 //TODO: Fix slight bug where this wont update across screens(some kind of varaible to pass maybe or a set state call?)
 String _newVoiceText = "";
@@ -15,10 +19,26 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      //TODO: Add in a title here
+      title: 'Flutter Demo',
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      //TODO: Add in a better title for the page
+      home: const MyHomePage(title: 'Home Page'),
+    );
+  }
+}
+
+/* class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -36,11 +56,10 @@ class _MyAppState extends State<MyApp> {
   double pitch = 1.0;
   double rate = 0.5;
   bool isCurrentLanguageInstalled = false;
-
-  String? _newVoiceText;
-  int? _inputLength;
-
   TtsState ttsState = TtsState.stopped;
+
+  final AppDataState appData = AppDataState();
+
 
   get isPlaying => ttsState == TtsState.playing;
   get isStopped => ttsState == TtsState.stopped;
@@ -191,27 +210,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _onChange(String text) {
-    setState(() {
-      _newVoiceText = text;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    print(appData);
     return MaterialApp(
       //TODO: Add in a title here
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       //TODO: Add in a better title for the page
-      home: const MyHomePage(title: 'Home Page'),
+      home: MyHomePage(title: 'Home Page', appState: appData),
     );
   }
 }
-
+ */
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.appState}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -223,6 +237,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final AppDataState appState;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -249,7 +264,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.person),
                 onPressed: () {
                   //Find if they are logged in
-                  FirebaseAuth auth = FirebaseAuth.instance;
                   FirebaseAuth.instance.userChanges().listen((User? user) {
                     if (user == null) {
                       //User is signed out
@@ -258,6 +272,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           context, MaterialPageRoute(builder: (context) => const LoginPage()));
                     } else {
                       //User is signed in
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                    user: user,
+                                  )));
                     }
                   });
                 },
@@ -280,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 width: MediaQuery.of(context).size.width * .9,
                 height: MediaQuery.of(context).size.height * .15,
-                child: Center(child: Text(_newVoiceText)),
+                child: Center(child: Text(widget.appState.voiceText)),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.blue,
@@ -358,7 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const CommonSentencesPage()),
+                                MaterialPageRoute(builder: (context) => CommonSentencesPage(appState: widget.appState,)),
                               );
                             },
                             child: const Text("Common Sentences")),
@@ -402,230 +422,5 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ));
-  }
-}
-
-class CommonSentencesPage extends StatefulWidget {
-  const CommonSentencesPage({Key? key}) : super(key: key);
-
-  @override
-  _CommonSentencesPageState createState() => _CommonSentencesPageState();
-}
-
-class _CommonSentencesPageState extends State<CommonSentencesPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Common Sentences"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //Read aloud text
-            Container(
-              width: MediaQuery.of(context).size.width * .9,
-              height: MediaQuery.of(context).size.height * .08,
-              child: Center(child: Text(_newVoiceText)),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-            //padding
-            const SizedBox(
-              height: 25,
-            ),
-            //My name is
-            Container(
-              width: MediaQuery.of(context).size.width * .9,
-              height: MediaQuery.of(context).size.height * .08,
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _newVoiceText = "Hello, My Name is...";
-                  });
-                },
-                child: const Text("Hello, My Name is..."),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.yellow.shade200,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-            ),
-            //padding
-            const SizedBox(
-              height: 25,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //Goodbye
-                    Container(
-                      width: MediaQuery.of(context).size.width * .44,
-                      height: MediaQuery.of(context).size.height * .08,
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _newVoiceText = "Goodbye";
-                          });
-                        },
-                        child: const Text("Goodbye"),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade200,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                    ),
-                    //padding
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    //Lorem Ipsum
-                    Container(
-                      width: MediaQuery.of(context).size.width * .44,
-                      height: MediaQuery.of(context).size.height * .3,
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _newVoiceText = "Lorem Ipsum";
-                          });
-                        },
-                        child: const Text("Lorem Ipsum"),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent.shade100,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 25,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //Good Job
-                    Container(
-                      width: MediaQuery.of(context).size.width * .43,
-                      height: MediaQuery.of(context).size.height * .3,
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _newVoiceText = "Good Job";
-                          });
-                        },
-                        child: const Text("Good Job"),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent.shade100,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                    ),
-                    //padding
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    //I'm Hungry
-                    Container(
-                      width: MediaQuery.of(context).size.width * .44,
-                      height: MediaQuery.of(context).size.height * .08,
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _newVoiceText = "I am Hungry";
-                          });
-                        },
-                        child: const Text("I am Hungry"),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade200,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            //padding
-            const SizedBox(
-              height: 25,
-            ),
-            //I don't know
-            Container(
-              width: MediaQuery.of(context).size.width * .9,
-              height: MediaQuery.of(context).size.height * .08,
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _newVoiceText = "I don't know";
-                  });
-                },
-                child: const Text("I don't know"),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.lightBlue.shade100,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

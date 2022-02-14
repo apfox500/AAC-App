@@ -7,6 +7,7 @@ import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
+import 'actions.dart' show ActionsPage;
 import 'dart:async';
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
 import 'package:thoughtspeech/singletons/appdata.dart';
@@ -343,7 +344,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       Container(
                         width: MediaQuery.of(context).size.width * .44,
                         height: MediaQuery.of(context).size.height * .15,
-                        child: TextButton(onPressed: () {}, child: const Text("Actions")),
+                        child: TextButton(onPressed: () {
+                          Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const ActionsPage())
+                          );
+                        }, child: const Text("Actions")),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           //TODO: Get the gradient to work, it refuses to work and go diagonal but oh well

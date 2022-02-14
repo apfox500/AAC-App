@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:io' show Platform;
+//import 'package:flutter_tts/flutter_tts.dart';
+//import 'package:flutter/foundation.dart' show kIsWeb;
+//import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
@@ -17,10 +18,26 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      //TODO: Add in a title here
+      title: 'Flutter Demo',
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      //TODO: Add in a better title for the page
+      home: const MyHomePage(title: 'Home Page'),
+    );
+  }
+}
+
+/* class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -205,7 +222,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
+ */
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title, required this.appState}) : super(key: key);
 
@@ -246,7 +263,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.person),
                 onPressed: () {
                   //Find if they are logged in
-                  FirebaseAuth auth = FirebaseAuth.instance;
                   FirebaseAuth.instance.userChanges().listen((User? user) {
                     if (user == null) {
                       //User is signed out
@@ -255,6 +271,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           context, MaterialPageRoute(builder: (context) => const LoginPage()));
                     } else {
                       //User is signed in
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                    user: user,
+                                  )));
                     }
                   });
                 },

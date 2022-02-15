@@ -8,9 +8,7 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
-import 'dart:async';
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
-import 'package:thoughtspeech/singletons/appdata.dart';
 
 //TODO: Fix slight bug where this wont update across screens(some kind of varaible to pass maybe or a set state call?)
 String _newVoiceText = "";
@@ -225,7 +223,7 @@ class _MyAppState extends State<MyApp> {
 }
  */
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title, required this.appState}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -237,7 +235,6 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
-  final AppDataState appState;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -300,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 width: MediaQuery.of(context).size.width * .9,
                 height: MediaQuery.of(context).size.height * .15,
-                child: Center(child: Text(widget.appState.voiceText)),
+                child: Center(child: Text(_newVoiceText)),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.blue,
@@ -378,7 +375,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => CommonSentencesPage(appState: widget.appState,)),
+                                MaterialPageRoute(builder: (context) => CommonSentencesPage(voiceText: _newVoiceText)),
                               );
                             },
                             child: const Text("Common Sentences")),

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:thoughtspeech/singletons/appdata.dart';
 
 class CommonSentencesPage extends StatefulWidget {
-  const CommonSentencesPage({Key? key, required this.appState}) : super(key: key);
+  const CommonSentencesPage({Key? key, required this.voiceText}) : super(key: key);
 
-  final AppDataState appState; 
+  final String voiceText;
   @override
   _CommonSentencesPageState createState() => _CommonSentencesPageState();
 }
 
 class _CommonSentencesPageState extends State<CommonSentencesPage> {
   void _setTextValue(String text) {
-    widget.appState.voiceText = text;
-    print(widget.appState.voiceText);
+    // widget.voiceText = text;
     setState(() {});
   }
 
@@ -30,7 +28,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
             Container(
               width: MediaQuery.of(context).size.width * .9,
               height: MediaQuery.of(context).size.height * .08,
-              child: Center(child: Text(widget.appState.voiceText)),
+              child: Center(child: Text(widget.voiceText)),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.blue,

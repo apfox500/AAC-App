@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:thoughtspeech/singletons/appdata.dart';
 
 class CommonSentencesPage extends StatefulWidget {
-  const CommonSentencesPage({Key? key}) : super(key: key);
+  const CommonSentencesPage({Key? key, required this.appState}) : super(key: key);
 
+  final AppDataState appState; 
   @override
   _CommonSentencesPageState createState() => _CommonSentencesPageState();
 }
 
 class _CommonSentencesPageState extends State<CommonSentencesPage> {
-  void setText(String text) {
-    setState(() {
-      
-    });
+  void _setTextValue(String text) {
+    widget.appState.voiceText = text;
+    print(widget.appState.voiceText);
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +30,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
             Container(
               width: MediaQuery.of(context).size.width * .9,
               height: MediaQuery.of(context).size.height * .08,
-              child: Center(child: Text(_newVoiceText)),
+              child: Center(child: Text(widget.appState.voiceText)),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.blue,
@@ -45,10 +48,8 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
               height: MediaQuery.of(context).size.height * .08,
               child: TextButton(
                 onPressed: () {
-                  setState(() {
-                    _newVoiceText = "Hello, My Name is...";
-                  });
-                },
+                          _setTextValue("Hello, My Name is ...");
+                        },
                 child: const Text("Hello, My Name is..."),
               ),
               decoration: BoxDecoration(
@@ -80,9 +81,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                       height: MediaQuery.of(context).size.height * .08,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            _newVoiceText = "Goodbye";
-                          });
+                          _setTextValue("Goodbye");
                         },
                         child: const Text("Goodbye"),
                       ),
@@ -110,9 +109,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                       height: MediaQuery.of(context).size.height * .3,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            _newVoiceText = "Lorem Ipsum";
-                          });
+                          _setTextValue("Lorem Ipsum");
                         },
                         child: const Text("Lorem Ipsum"),
                       ),
@@ -144,9 +141,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                       height: MediaQuery.of(context).size.height * .3,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            _newVoiceText = "Good Job";
-                          });
+                          _setTextValue("Good Job");
                         },
                         child: const Text("Good Job"),
                       ),
@@ -174,9 +169,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                       height: MediaQuery.of(context).size.height * .08,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            _newVoiceText = "I am Hungry";
-                          });
+                          _setTextValue("I am Hungry");
                         },
                         child: const Text("I am Hungry"),
                       ),
@@ -208,10 +201,8 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
               height: MediaQuery.of(context).size.height * .08,
               child: TextButton(
                 onPressed: () {
-                  setState(() {
-                    _newVoiceText = "I don't know";
-                  });
-                },
+                          _setTextValue("I don't know");
+                        },
                 child: const Text("I don't know"),
               ),
               decoration: BoxDecoration(

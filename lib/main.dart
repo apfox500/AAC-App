@@ -11,7 +11,6 @@ import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
 
 //TODO: Fix slight bug where this wont update across screens(some kind of varaible to pass maybe or a set state call?)
-String _newVoiceText = "";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -241,6 +240,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String _voiceText = "";
+
+  void _handleVoiceTextChanged(String newValue) {
+    setState(() {
+      _voiceText = newValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -297,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 width: MediaQuery.of(context).size.width * .9,
                 height: MediaQuery.of(context).size.height * .15,
-                child: Center(child: Text(_newVoiceText)),
+                child: Center(child: Text(_voiceText)),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.blue,
@@ -375,7 +382,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => CommonSentencesPage(voiceText: _newVoiceText)),
+                                MaterialPageRoute(builder: (context) => CommonSentencesPage(voiceText: _voiceText, setTextValue: _handleVoiceTextChanged,)),
                               );
                             },
                             child: const Text("Common Sentences")),

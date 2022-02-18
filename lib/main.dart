@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
+
       //TODO: Add in a better title for the page
       home: const MyHomePage(title: 'Home Page'),
     );
@@ -341,11 +342,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       Container(
                         width: MediaQuery.of(context).size.width * .44,
                         height: MediaQuery.of(context).size.height * .15,
-                        child: TextButton(onPressed: () {
-                          Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const ActionsPage())
-                          );
-                        }, child: const Text("Actions")),
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => const ActionsPage()));
+                            },
+                            child: const Text("Actions")),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           //TODO: Get the gradient to work, it refuses to work and go diagonal but oh well
@@ -375,7 +377,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => CommonSentencesPage(voiceText: _newVoiceText)),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CommonSentencesPage(voiceText: _newVoiceText)),
                               );
                             },
                             child: const Text("Common Sentences")),

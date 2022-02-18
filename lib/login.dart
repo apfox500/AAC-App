@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'profile.dart' show ProfilePage;
+import 'package:thoughtspeech/main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,7 +22,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      appBar: AppBar(
+        title: const Text("Login"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MyHomePage(title: "Home Page"),
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Center(
@@ -351,6 +363,7 @@ void _forgotPassword(String email, BuildContext context) {
 void _createAccount(String email, String pass, String pass2, BuildContext context) async {
   if (pass == pass2) {
     try {
+      // ignore: unused_local_variable
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pass);
     } on FirebaseAuthException catch (e) {
@@ -380,6 +393,7 @@ void _createAccount(String email, String pass, String pass2, BuildContext contex
             });
       }
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   } else {

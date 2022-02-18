@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_tts/flutter_tts.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 //import 'package:flutter/foundation.dart' show kIsWeb;
 //import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
@@ -241,12 +241,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final FlutterTts tts = FlutterTts();
   String _voiceText = "";
 
   void _handleVoiceTextChanged(String newValue) {
     setState(() {
       _voiceText = newValue;
     });
+  }
+
+  _MyHomePageState() {
+    tts.setLanguage('en');
+    tts.setSpeechRate(0.4);
   }
 
   @override
@@ -293,7 +299,9 @@ class _MyHomePageState extends State<MyHomePage> {
         //Button to make it read aloud? not sure just copying the figma
         //TODO: Implement functionality for this floatingActionButton
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            tts.speak(_voiceText);
+          },
           heroTag: 'readaloudbtn',
           backgroundColor: Colors.grey,
         ),

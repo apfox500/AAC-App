@@ -38,6 +38,7 @@ dependencies:
   firebase_auth: ^3.3.7
   # flutter_tts: ^3.3.3
   firebase_dynamic_links: ^0.5.1
+  flutter_tts: ^3.3.3
 #  image_picker: ^0.8.4+8
 
 

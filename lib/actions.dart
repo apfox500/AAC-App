@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 String _textValue = "fillerlmao";
-//Posisbilty to count number of times used and order the list based on frequency of use
-//This NEEEDSSSSSS to be divisible by 7 or it goes poorly
+// Possibility to count number of times used and order the list based on frequency of use
+// This needs to be divisible by 7 or it goes poorly
 Map<String, List<String>> verbsToConjugations = {
   'be': ['am', 'are', 'is', 'was', 'were', 'being', 'been', 'to be', 'be'],
   'have': ['have', 'has', 'had', 'having', 'to have'],

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AAC Application',
+      title: 'ThoughtSpeech',
       theme: ThemeData.light(),
       //darkTheme: ThemeData.dark(),
 
@@ -145,17 +145,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: MediaQuery.of(context).size.height * .15,
                         child: TextButton(
                             onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => const ActionsPage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ActionsPage(
+                                            voiceText: _voiceText,
+                                            setTextValue: _handleVoiceTextChanged,
+                                          )));
                             },
                             child: const Text("Actions")),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          //TODO: Get the gradient to work, it refuses to work and go diagonal but oh well
-                          gradient: LinearGradient(
-                              colors: [Colors.pink.shade300, Colors.pink.shade200],
-                              begin: const Alignment(0, 0),
-                              end: Alignment.bottomLeft),
+                          color: Colors.pink.shade300,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),

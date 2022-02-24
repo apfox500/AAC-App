@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+String _currentVoiceText = "";
+
 class CommonSentencesPage extends StatefulWidget {
   const CommonSentencesPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
@@ -13,12 +15,17 @@ class CommonSentencesPage extends StatefulWidget {
 }
 
 class _CommonSentencesPageState extends State<CommonSentencesPage> {
-  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;
       widget.setTextValue(value);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentVoiceText = widget.voiceText;
   }
 
   @override
@@ -62,7 +69,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         builder: (context) {
                           return Dialog(
                             child: TextField(
-                              decoration: InputDecoration(labelText: "What's your name?"),
+                              decoration: const InputDecoration(labelText: "What's your name?"),
                               onSubmitted: (user) {
                                 _handleTextUpdate("Hello, My Name is " + user);
                                 Navigator.pop(context, true);
@@ -205,6 +212,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         ],
                       ),
                     ),
+
                   ],
                 )
               ],

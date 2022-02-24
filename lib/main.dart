@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
+import 'pronouns.dart' show PronounsPage;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -245,8 +246,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   //Pronouns
                   Container(
                     width: MediaQuery.of(context).size.width * .43,
-                    height: 225,
-                    child: TextButton(onPressed: () {}, child: const Text("Pronouns")),
+                    height: 270,
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PronounsPage(
+                                      voiceText: _voiceText,
+                                      setTextValue: _handleVoiceTextChanged,
+                                    )),
+                          );
+                        },
+                        child: const Text("Pronouns")),
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(10.0),

@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-String _textValue = "fillerlmao";
 //Posisbilty to count number of times used and order the list based on frequency of use
 //This NEEEDSSSSSS to be divisible by 7 or it goes poorly
 Map<String, List<String>> verbsToConjugations = {
@@ -98,13 +97,57 @@ List<Action> actions = [
 ]; */
 
 class ActionsPage extends StatefulWidget {
-  const ActionsPage({Key? key}) : super(key: key);
-
+  const ActionsPage({Key? key, required this.voiceText, required this.setTextValue})
+      : super(key: key);
+  final String voiceText;
+  final ValueChanged<String> setTextValue;
   @override
   _ActionsPageState createState() => _ActionsPageState();
 }
 
+String _currentVoiceText = "";
+
 class _ActionsPageState extends State<ActionsPage> {
+  void _handleTextUpdate(String value) {
+    setState(() {
+      _currentVoiceText = value;
+      widget.setTextValue(value);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentVoiceText = widget.voiceText;
+  }
+
+  void actionButtonPressed(Action input, BuildContext context) {
+    //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
+    input.freq++;
+    List<String> forms = input.conjugate();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .6,
+              width: MediaQuery.of(context).size.width * .6,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: forms.length,
+                  itemBuilder: ((context, index) {
+                    return TextButton(
+                        child: Text(forms[index]),
+                        onPressed: () {
+                          _handleTextUpdate(_currentVoiceText + " " + forms[index]);
+                          Navigator.pop(context, true);
+                        });
+                  })),
+            ),
+          ]);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -119,7 +162,7 @@ class _ActionsPageState extends State<ActionsPage> {
             child: Container(
               width: _width * .9,
               height: _height * .08,
-              child: Center(child: Text(_textValue)),
+              child: Center(child: Text(_currentVoiceText)),
               decoration: BoxDecoration(
                 border: Border.all(),
                 borderRadius: BorderRadius.circular(10.0),
@@ -130,14 +173,295 @@ class _ActionsPageState extends State<ActionsPage> {
           SizedBox(
             height: _height * .7,
             child: ListView.builder(
-                itemCount: actions.length ~/ 7,
-                itemBuilder: ((context, int index) {
-                  actions.sort();
-                  List<Action> labels = actions.sublist(index * 7, (index + 1) * 7);
-                  return SizedBox(
-                      height: _height * .8,
-                      child: buttons(_width * .8, _height * .8, labels, context));
-                })),
+              itemCount: actions.length ~/ 7,
+              itemBuilder: ((context, int index) {
+                actions.sort();
+                List<Action> labels = actions.sublist(index * 7, (index + 1) * 7);
+                double height = MediaQuery.of(context).size.height;
+                double width = MediaQuery.of(context).size.width;
+                double _defaultHeight = height / 6.7;
+                double _defaultWidth = width / 2.05;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              width: _defaultWidth,
+                              height: _defaultHeight,
+                              decoration: BoxDecoration(
+                                color: randomColor(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  actionButtonPressed(labels[0], context);
+                                },
+                                child: (labels[0].hasIcon())
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          labels[0].icon!,
+                                          Text(
+                                            labels[0].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        labels[0].toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground),
+                                      ),
+                              ),
+                            ),
+                            Container(height: height * .05),
+                            Container(
+                              width: _defaultWidth,
+                              height: _defaultHeight * 2,
+                              decoration: BoxDecoration(
+                                color: randomColor(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () => actionButtonPressed(labels[1], context),
+                                child: (labels[1].hasIcon())
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          labels[1].icon!,
+                                          Text(
+                                            labels[1].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        labels[1].toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground),
+                                      ),
+                              ),
+                            ),
+                            Container(height: height * .05),
+                            Container(
+                              width: _defaultWidth,
+                              height: _defaultHeight,
+                              decoration: BoxDecoration(
+                                color: randomColor(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () => actionButtonPressed(labels[2], context),
+                                child: (labels[2].hasIcon())
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          labels[2].icon!,
+                                          Text(
+                                            labels[2].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        labels[2].toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground),
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                color: randomColor(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              width: _defaultWidth,
+                              height: _defaultHeight,
+                              child: TextButton(
+                                onPressed: () => actionButtonPressed(labels[3], context),
+                                child: (labels[3].hasIcon())
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          labels[3].icon!,
+                                          Text(
+                                            labels[3].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        labels[3].toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground),
+                                      ),
+                              ),
+                            ),
+                            Container(height: height * .05),
+                            Container(
+                              width: _defaultWidth,
+                              height: _defaultHeight,
+                              decoration: BoxDecoration(
+                                color: randomColor(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () => actionButtonPressed(labels[4], context),
+                                child: (labels[4].hasIcon())
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          labels[4].icon!,
+                                          Text(
+                                            labels[4].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        labels[4].toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground),
+                                      ),
+                              ),
+                            ),
+                            Container(height: height * .05),
+                            Container(
+                              width: _defaultWidth,
+                              height: _defaultHeight * 2,
+                              decoration: BoxDecoration(
+                                color: randomColor(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () => actionButtonPressed(labels[5], context),
+                                child: (labels[5].hasIcon())
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          labels[5].icon!,
+                                          Text(
+                                            labels[5].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        labels[5].toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground),
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Container(height: height * .05),
+                    Container(
+                      width: _defaultWidth * 2.1,
+                      height: _defaultHeight,
+                      decoration: BoxDecoration(
+                        color: randomColor(),
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        onPressed: () => actionButtonPressed(labels[6], context),
+                        child: (labels[6].hasIcon())
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  labels[6].icon!,
+                                  Text(
+                                    labels[6].toString(),
+                                    style:
+                                        TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                labels[6].toString(),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                              ),
+                      ),
+                    ),
+                    Container(height: height * .05),
+                  ],
+                );
+              }),
+            ),
           )
         ],
       ),
@@ -151,276 +475,6 @@ Color randomColor() {
   double randomDouble = random.nextDouble();
 
   return Color((randomDouble * 0xFFFFFF).toInt()).withOpacity(1.0);
-}
-
-Widget buttons(double width, double height, List<Action> labels, BuildContext context) {
-  double _defaultHeight = height / 6.7;
-  double _defaultWidth = width / 2.05;
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                width: _defaultWidth,
-                height: _defaultHeight,
-                decoration: BoxDecoration(
-                  color: randomColor(),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    actionButtonPressed(labels[0], context);
-                  },
-                  child: (labels[0].hasIcon())
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            labels[0].icon!,
-                            Text(
-                              labels[0].toString(),
-                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          labels[0].toString(),
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                        ),
-                ),
-              ),
-              Container(height: height * .05),
-              Container(
-                width: _defaultWidth,
-                height: _defaultHeight * 2,
-                decoration: BoxDecoration(
-                  color: randomColor(),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () => actionButtonPressed(labels[1], context),
-                  child: (labels[1].hasIcon())
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            labels[1].icon!,
-                            Text(
-                              labels[1].toString(),
-                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          labels[1].toString(),
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                        ),
-                ),
-              ),
-              Container(height: height * .05),
-              Container(
-                width: _defaultWidth,
-                height: _defaultHeight,
-                decoration: BoxDecoration(
-                  color: randomColor(),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () => actionButtonPressed(labels[2], context),
-                  child: (labels[2].hasIcon())
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            labels[2].icon!,
-                            Text(
-                              labels[2].toString(),
-                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          labels[2].toString(),
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                        ),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: randomColor(),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                width: _defaultWidth,
-                height: _defaultHeight,
-                child: TextButton(
-                  onPressed: () => actionButtonPressed(labels[3], context),
-                  child: (labels[3].hasIcon())
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            labels[3].icon!,
-                            Text(
-                              labels[3].toString(),
-                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          labels[3].toString(),
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                        ),
-                ),
-              ),
-              Container(height: height * .05),
-              Container(
-                width: _defaultWidth,
-                height: _defaultHeight,
-                decoration: BoxDecoration(
-                  color: randomColor(),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () => actionButtonPressed(labels[4], context),
-                  child: (labels[4].hasIcon())
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            labels[4].icon!,
-                            Text(
-                              labels[4].toString(),
-                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          labels[4].toString(),
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                        ),
-                ),
-              ),
-              Container(height: height * .05),
-              Container(
-                width: _defaultWidth,
-                height: _defaultHeight * 2,
-                decoration: BoxDecoration(
-                  color: randomColor(),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () => actionButtonPressed(labels[5], context),
-                  child: (labels[5].hasIcon())
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            labels[5].icon!,
-                            Text(
-                              labels[5].toString(),
-                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          labels[5].toString(),
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                        ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      Container(height: height * .05),
-      Container(
-        width: _defaultWidth * 2.1,
-        height: _defaultHeight,
-        decoration: BoxDecoration(
-          color: randomColor(),
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: TextButton(
-          onPressed: () => actionButtonPressed(labels[5], context),
-          child: (labels[6].hasIcon())
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    labels[6].icon!,
-                    Text(
-                      labels[6].toString(),
-                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                    ),
-                  ],
-                )
-              : Text(
-                  labels[6].toString(),
-                  style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                ),
-        ),
-      )
-    ],
-  );
 }
 
 class Action extends Comparable {
@@ -453,35 +507,4 @@ class Action extends Comparable {
     }
     return 0;
   }
-}
-
-void actionButtonPressed(Action input, BuildContext context) {
-  //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
-  input.freq++;
-  List<String> forms = input.conjugate();
-  showDialog(
-      context: context,
-      builder: (context) {
-        return SimpleDialog(children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .6,
-            width: MediaQuery.of(context).size.width * .6,
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: forms.length,
-                itemBuilder: ((context, index) {
-                  return TextButton(
-                    child: Text(forms[index]),
-                    onPressed: () {
-                      _textValue += " " + forms[index];
-                      //TODO: Fix this bc its not popping rn :(
-                      Navigator.of(context).pop;
-                      Navigator.of(context).pop;
-                      Navigator.of(context).pop;
-                    },
-                  );
-                })),
-          ),
-        ]);
-      });
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-//import 'package:flutter/foundation.dart' show kIsWeb;
-//import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
@@ -10,7 +8,6 @@ import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
 
-//TODO: Fix slight bug where this wont update across screens(some kind of varaible to pass maybe or a set state call?)
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -25,8 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //TODO: Add in a title here
-      title: 'Flutter Demo',
+      title: 'ThoughtSpeech',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
 
@@ -297,7 +293,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         //Button to make it read aloud? not sure just copying the figma
-        //TODO: Implement functionality for this floatingActionButton
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             tts.speak(_voiceText);
@@ -359,17 +354,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: MediaQuery.of(context).size.height * .15,
                         child: TextButton(
                             onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => const ActionsPage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ActionsPage(
+                                            voiceText: _voiceText,
+                                            setTextValue: _handleVoiceTextChanged,
+                                          )));
                             },
                             child: const Text("Actions")),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          //TODO: Get the gradient to work, it refuses to work and go diagonal but oh well
-                          gradient: LinearGradient(
-                              colors: [Colors.pink.shade300, Colors.pink.shade200],
-                              begin: const Alignment(0, 0),
-                              end: Alignment.bottomLeft),
+                          color: Colors.pink.shade300,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),

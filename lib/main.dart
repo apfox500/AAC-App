@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
       title: 'ThoughtSpeech',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-
       home: const MyHomePage(title: 'Home Page'),
     );
   }
@@ -61,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _MyHomePageState() {
     tts.setLanguage('en');
-    tts.setSpeechRate(0.8);
+    tts.setSpeechRate(0.4);
   }
 
   @override
@@ -105,28 +104,46 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
+        //Button to make it read aloud? not sure just copying the figma
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             tts.speak(_voiceText);
           },
           heroTag: 'readaloudbtn',
           backgroundColor: Colors.grey,
+          child: const Icon(Icons.record_voice_over),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               //Read aloud text
-              Container(
-                width: MediaQuery.of(context).size.width * .9,
-                height: MediaQuery.of(context).size.height * .15,
-                child: Center(child: Text(_voiceText)),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue,
+              Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: MediaQuery.of(context).size.height * .15,
+                    child: Center(child: Text(_voiceText)),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+                  Visibility(
+                    visible: _voiceText != "",
+                    child: Positioned(
+                      right: 0,
+                      child: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _handleVoiceTextChanged("");
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
               //padding
               const SizedBox(

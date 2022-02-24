@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 String _currentVoiceText = "";
 
@@ -15,6 +16,7 @@ class CommonSentencesPage extends StatefulWidget {
 }
 
 class _CommonSentencesPageState extends State<CommonSentencesPage> {
+  final FlutterTts tts = FlutterTts();
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;
@@ -22,6 +24,10 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
     });
   }
 
+  _CommonSentencesPageState() {
+    tts.setLanguage('en');
+    tts.setSpeechRate(0.4);
+  }
   @override
   void initState() {
     super.initState();
@@ -34,21 +40,45 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
       appBar: AppBar(
         title: const Text("Common Sentences"),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          tts.speak(_currentVoiceText);
+        },
+        heroTag: 'readaloudbtn',
+        backgroundColor: Colors.grey,
+        child: const Icon(Icons.record_voice_over),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             //Read aloud text
-            Container(
-              width: MediaQuery.of(context).size.width * .9,
-              height: MediaQuery.of(context).size.height * .08,
-              child: Center(child: Text(_currentVoiceText)),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
+            Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * .9,
+                  height: MediaQuery.of(context).size.height * .15,
+                  child: Center(child: Text(_currentVoiceText)),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
+                Visibility(
+                  visible: _currentVoiceText != "",
+                  child: Positioned(
+                    right: 0,
+                    child: IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _handleTextUpdate("");
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
             //padding
             const SizedBox(

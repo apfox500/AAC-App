@@ -471,15 +471,12 @@ void actionButtonPressed(Action input, BuildContext context) {
                 itemCount: forms.length,
                 itemBuilder: ((context, index) {
                   return TextButton(
-                    child: Text(forms[index]),
-                    onPressed: () {
-                      _textValue += " " + forms[index];
-                      //TODO: Fix this bc its not popping rn :(
-                      Navigator.of(context).pop;
-                      Navigator.of(context).pop;
-                      Navigator.of(context).pop;
-                    },
-                  );
+                      child: Text(forms[index]),
+                      onPressed: () {
+                        _textValue += " " + forms[index];
+                        //TODO: Fix this bc its not popping rn :(
+                        Navigator.pop(context, true);
+                      });
                 })),
           ),
         ]);

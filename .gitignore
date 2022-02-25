@@ -1,5 +1,6 @@
 .flutter-plugin*
-
+build*/
+.dart_tools*/
 
 # Miscellaneous
 *.class

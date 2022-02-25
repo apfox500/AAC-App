@@ -152,9 +152,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //Objects
               Container(
-                width: MediaQuery.of(context).size.width * .9,
+                width: MediaQuery.of(context).size.width * .89,
                 height: MediaQuery.of(context).size.height * .15,
-                child: TextButton(onPressed: () {}, child: const Text("Objects")),
+                child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Objects",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                    )),
                 decoration: BoxDecoration(
                   color: Colors.purple.shade200,
                   borderRadius: BorderRadius.circular(10.0),
@@ -192,7 +197,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             setTextValue: _handleVoiceTextChanged,
                                           )));
                             },
-                            child: const Text("Actions")),
+                            child: Text(
+                              "Actions",
+                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                            )),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.pink.shade300,
@@ -225,7 +233,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                         )),
                               );
                             },
-                            child: const Text("Common Sentences")),
+                            child: Text(
+                              "Common Sentences",
+                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                            )),
                         decoration: BoxDecoration(
                           color: Colors.lightGreen,
                           borderRadius: BorderRadius.circular(10.0),
@@ -258,7 +269,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     )),
                           );
                         },
-                        child: const Text("Pronouns")),
+                        child: Text(
+                          "Pronouns",
+                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                        )),
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(10.0),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
@@ -25,7 +27,6 @@ class MyApp extends StatelessWidget {
       title: 'ThoughtSpeech',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-
       home: const MyHomePage(title: 'Home Page'),
       debugShowCheckedModeBanner: false,
     );
@@ -34,6 +35,15 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
 
   final String title;
 
@@ -77,14 +87,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.person),
                 onPressed: () {
                   //Find if they are logged in
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                  FirebaseAuth.instance.userChanges().listen((User? user) {
+                    if (user == null) {
+                      //User is signed out
+                      //Needs to open a login/signup page
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                    } else {
+                      //User is signed in
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                    user: user,
+                                  )));
+                    }
+                  });
                 },
               ),
             )
           ],
         ),
         //Button to make it read aloud? not sure just copying the figma
-
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             tts.speak(_voiceText);

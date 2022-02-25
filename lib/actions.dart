@@ -536,30 +536,3 @@ class Action extends Comparable {
     return 0;
   }
 }
-void actionButtonPressed(Action input, BuildContext context) {
-  //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
-  input.freq++;
-  List<String> forms = input.conjugate();
-  showDialog(
-      context: context,
-      builder: (context) {
-        return SimpleDialog(children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .6,
-            width: MediaQuery.of(context).size.width * .6,
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: forms.length,
-                itemBuilder: ((context, index) {
-                  return TextButton(
-                      child: Text(forms[index]),
-                      onPressed: () {
-                        _textValue += " " + forms[index];
-                        //TODO: Fix this bc its not popping rn :(
-                        Navigator.pop(context, true);
-                      });
-                })),
-          ),
-        ]);
-      });
-}

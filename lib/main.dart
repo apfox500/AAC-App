@@ -8,6 +8,7 @@ import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
 import 'pronouns.dart' show PronounsPage;
+import 'objects.dart' show ObjectsPage;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
+          automaticallyImplyLeading: false,
           actions: [
             Padding(
               padding: const EdgeInsets.all(8),
@@ -155,7 +157,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: MediaQuery.of(context).size.width * .89,
                 height: MediaQuery.of(context).size.height * .15,
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ObjectsPage(
+                                    voiceText: _voiceText,
+                                    setTextValue: _handleVoiceTextChanged,
+                                  )));
+                    },
                     child: Text(
                       "Objects",
                       style: TextStyle(color: Theme.of(context).colorScheme.onBackground),

@@ -6,32 +6,24 @@ import 'package:flutter_tts/flutter_tts.dart';
 // This needs to be divisible by 7 or it goes poorly
 //TODO: Double click for plural
 List<Thing> objects = [
-  Thing(name: "Pizza", icon: const Icon(Icons.local_pizza)),
-  Thing(name: "Ball", icon: const Icon(Icons.sports_soccer)),
-  Thing(name: "Sandwich", icon: const Icon(Icons.lunch_dining)),
-  Thing(name: "Football", icon: const Icon(Icons.sports_football)),
+  Thing(name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white)),
+  Thing(name: "Ball", icon: const Icon(Icons.sports_soccer, color: Colors.white)),
+  Thing(name: "Sandwich", icon: const Icon(Icons.lunch_dining, color: Colors.white)),
+  Thing(name: "Football", icon: const Icon(Icons.sports_football, color: Colors.white)),
   Thing(name: "Field"),
-  Thing(name: "Computer", icon: const Icon(Icons.computer)),
-  Thing(name: "Pencil", icon: const Icon(Icons.edit)),
-  Thing(name: "Paper", icon: const Icon(Icons.description)),
+  Thing(name: "Computer", icon: const Icon(Icons.computer, color: Colors.white)),
+  Thing(name: "Pencil", icon: const Icon(Icons.edit, color: Colors.white)),
+  Thing(name: "Paper", icon: const Icon(Icons.description, color: Colors.white)),
   Thing(
     name: "Pen",
   ),
-  Thing(
-    name: "School",
-  ),
+  Thing(name: "School", icon: const Icon(Icons.school, color: Colors.white)),
   Thing(
     name: "Airpods",
   ),
-  Thing(
-    name: "Phone",
-  ),
-  Thing(
-    name: "TV",
-  ),
-  Thing(
-    name: "Water",
-  ),
+  Thing(name: "Phone", icon: const Icon(Icons.phone_iphone, color: Colors.white)),
+  Thing(name: "TV", icon: const Icon(Icons.tv, color: Colors.white)),
+  Thing(name: "Water", icon: const Icon(Icons.water, color: Colors.white)),
 ];
 String _currentVoiceText = "";
 

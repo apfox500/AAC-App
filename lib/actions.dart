@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_tts/flutter_tts.dart';
 
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
@@ -57,7 +57,8 @@ List<Action> actions = [
   Action(name: "try"),
   Action(name: "leave"),
   Action(name: "call"),
-]; /* Action(name: "Watch TV", icon: const Icon(Icons.tv)),
+];
+/* Action(name: "Watch TV", icon: const Icon(Icons.tv)),
   Action(name: "Dance"),
   Action(name: "Turn on", icon: const Icon(Icons.power)),
   Action(name: "Turn off", icon: const Icon(Icons.power_off)),
@@ -96,6 +97,7 @@ List<Action> actions = [
   Action(name: "Buy"),
   Action(name: "Shake", icon: const Icon(Icons.handshake)),
 ]; */
+String _currentVoiceText = "";
 
 class ActionsPage extends StatefulWidget {
   const ActionsPage({Key? key, required this.voiceText, required this.setTextValue})
@@ -106,8 +108,6 @@ class ActionsPage extends StatefulWidget {
   _ActionsPageState createState() => _ActionsPageState();
 }
 
-String _currentVoiceText = "";
-
 class _ActionsPageState extends State<ActionsPage> {
   void _handleTextUpdate(String value) {
     setState(() {
@@ -115,6 +115,8 @@ class _ActionsPageState extends State<ActionsPage> {
       widget.setTextValue(value);
     });
   }
+
+  final FlutterTts tts = FlutterTts();
 
   @override
   void initState() {
@@ -149,25 +151,54 @@ class _ActionsPageState extends State<ActionsPage> {
         });
   }
 
+  _ActionsPageState() {
+    tts.setLanguage('en');
+    tts.setSpeechRate(0.4);
+  }
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Actions")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          tts.speak(_currentVoiceText);
+        },
+        heroTag: 'readaloudbtn',
+        backgroundColor: Colors.grey,
+        child: const Icon(Icons.record_voice_over),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: Container(
-              width: _width * .9,
-              height: _height * .08,
-              child: Center(child: Text(_currentVoiceText)),
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * .9,
+                  height: MediaQuery.of(context).size.height * .15,
+                  child: Center(child: Text(_currentVoiceText)),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                Visibility(
+                  visible: _currentVoiceText != "",
+                  child: Positioned(
+                    right: 0,
+                    child: IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _handleTextUpdate("");
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Container(height: _height * .045),
@@ -179,7 +210,7 @@ class _ActionsPageState extends State<ActionsPage> {
                 actions.sort();
                 List<Action> labels = actions.sublist(index * 7, (index + 1) * 7);
                 double height = MediaQuery.of(context).size.height;
-                double width = MediaQuery.of(context).size.width;
+                double width = MediaQuery.of(context).size.width * .9;
                 double _defaultHeight = height / 6.7;
                 double _defaultWidth = width / 2.05;
                 return Column(
@@ -471,11 +502,7 @@ class _ActionsPageState extends State<ActionsPage> {
 }
 
 Color randomColor() {
-  Random random = Random();
-  // Pick a random number in the range [0.0, 1.0)
-  double randomDouble = random.nextDouble();
-
-  return Color((randomDouble * 0xFFFFFF).toInt()).withOpacity(1.0);
+  return Colors.primaries[Random().nextInt(Colors.primaries.length)];
 }
 
 class Action extends Comparable {
@@ -508,31 +535,4 @@ class Action extends Comparable {
     }
     return 0;
   }
-}
-void actionButtonPressed(Action input, BuildContext context) {
-  //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
-  input.freq++;
-  List<String> forms = input.conjugate();
-  showDialog(
-      context: context,
-      builder: (context) {
-        return SimpleDialog(children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .6,
-            width: MediaQuery.of(context).size.width * .6,
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: forms.length,
-                itemBuilder: ((context, index) {
-                  return TextButton(
-                      child: Text(forms[index]),
-                      onPressed: () {
-                        _textValue += " " + forms[index];
-                        //TODO: Fix this bc its not popping rn :(
-                        Navigator.pop(context, true);
-                      });
-                })),
-          ),
-        ]);
-      });
 }

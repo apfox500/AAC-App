@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
 import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
+import 'pronouns.dart' show PronounsPage;
+import 'objects.dart' show ObjectsPage;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +26,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ThoughtSpeech',
       theme: ThemeData.light(),
-      //darkTheme: ThemeData.dark(),
-
+      darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Home Page'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
 
   final String title;
 
@@ -50,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _MyHomePageState() {
     tts.setLanguage('en');
-    tts.setSpeechRate(0.8);
+    tts.setSpeechRate(0.4);
   }
 
   @override
@@ -66,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
+          automaticallyImplyLeading: false,
           actions: [
             Padding(
               padding: const EdgeInsets.all(8),
@@ -73,16 +87,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.person),
                 onPressed: () {
                   //Find if they are logged in
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                  FirebaseAuth.instance.userChanges().listen((User? user) {
+                    if (user == null) {
+                      //User is signed out
+                      //Needs to open a login/signup page
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                    } else {
+                      //User is signed in
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                    user: user,
+                                  )));
+                    }
+                  });
                 },
               ),
             )
           ],
         ),
-<<<<<<< HEAD
         //Button to make it read aloud? not sure just copying the figma
-=======
->>>>>>> main
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             tts.speak(_voiceText);
@@ -96,16 +122,32 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               //Read aloud text
-              Container(
-                width: MediaQuery.of(context).size.width * .9,
-                height: MediaQuery.of(context).size.height * .15,
-                child: Center(child: Text(_voiceText)),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue,
+              Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: MediaQuery.of(context).size.height * .15,
+                    child: Center(child: Text(_voiceText)),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+                  Visibility(
+                    visible: _voiceText != "",
+                    child: Positioned(
+                      right: 0,
+                      child: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _handleVoiceTextChanged("");
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
               //padding
               const SizedBox(
@@ -113,9 +155,22 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //Objects
               Container(
-                width: MediaQuery.of(context).size.width * .9,
+                width: MediaQuery.of(context).size.width * .89,
                 height: MediaQuery.of(context).size.height * .15,
-                child: TextButton(onPressed: () {}, child: const Text("Objects")),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ObjectsPage(
+                                    voiceText: _voiceText,
+                                    setTextValue: _handleVoiceTextChanged,
+                                  )));
+                    },
+                    child: Text(
+                      "Objects",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                    )),
                 decoration: BoxDecoration(
                   color: Colors.purple.shade200,
                   borderRadius: BorderRadius.circular(10.0),
@@ -153,7 +208,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             setTextValue: _handleVoiceTextChanged,
                                           )));
                             },
-                            child: const Text("Actions")),
+                            child: Text(
+                              "Actions",
+                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                            )),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.pink.shade300,
@@ -186,7 +244,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                         )),
                               );
                             },
-                            child: const Text("Common Sentences")),
+                            child: Text(
+                              "Common Sentences",
+                              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                            )),
                         decoration: BoxDecoration(
                           color: Colors.lightGreen,
                           borderRadius: BorderRadius.circular(10.0),
@@ -207,8 +268,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   //Pronouns
                   Container(
                     width: MediaQuery.of(context).size.width * .43,
-                    height: 225,
-                    child: TextButton(onPressed: () {}, child: const Text("Pronouns")),
+                    height: 270,
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PronounsPage(
+                                      voiceText: _voiceText,
+                                      setTextValue: _handleVoiceTextChanged,
+                                    )),
+                          );
+                        },
+                        child: Text(
+                          "Pronouns",
+                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                        )),
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(10.0),

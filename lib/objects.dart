@@ -52,10 +52,14 @@ class _ObjectsPageState extends State<ObjectsPage> {
     _currentVoiceText = widget.voiceText;
   }
 
-  void objectButtonPressed(Thing input) {
+  void objectButtonPressed(Thing input, {bool plural = false}) {
     //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
     input.freq++;
-    _handleTextUpdate(_currentVoiceText + " " + input.name);
+    if (!plural) {
+      _handleTextUpdate(_currentVoiceText + " " + input.name);
+    } else {
+      _handleTextUpdate(_currentVoiceText + " " + input.name + "s");
+    }
   }
 
   _ObjectsPageState() {
@@ -129,42 +133,45 @@ class _ObjectsPageState extends State<ObjectsPage> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Container(
-                              width: _defaultWidth,
-                              height: _defaultHeight,
-                              decoration: BoxDecoration(
-                                color: randomColor(),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                  objectButtonPressed(labels[0]);
-                                },
-                                child: (labels[0].hasIcon())
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          labels[0].icon!,
-                                          Text(
-                                            labels[0].toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context).colorScheme.onBackground),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        labels[0].toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground),
-                                      ),
+                            GestureDetector(
+                              onDoubleTap: () => objectButtonPressed(labels[0], plural: true),
+                              child: Container(
+                                width: _defaultWidth,
+                                height: _defaultHeight,
+                                decoration: BoxDecoration(
+                                  color: randomColor(),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    objectButtonPressed(labels[0]);
+                                  },
+                                  child: (labels[0].hasIcon())
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            labels[0].icon!,
+                                            Text(
+                                              labels[0].toString(),
+                                              style: TextStyle(
+                                                  color: Theme.of(context).colorScheme.onBackground),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          labels[0].toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                ),
                               ),
                             ),
                             Container(height: height * .05),

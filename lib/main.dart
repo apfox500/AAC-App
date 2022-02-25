@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Home Page'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

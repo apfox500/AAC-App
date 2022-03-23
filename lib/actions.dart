@@ -128,6 +128,7 @@ class _ActionsPageState extends State<ActionsPage> {
     //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
     input.freq++;
     List<String> forms = input.conjugate();
+    //TODO: make this dialog better bc thats what the judges said we should
     showDialog(
         context: context,
         builder: (context) {

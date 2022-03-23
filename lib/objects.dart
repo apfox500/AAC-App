@@ -4,7 +4,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
-//TODO: Double click for plural
+//TODO: add in plural variable for objects so it isn't just adding an s on, but uses a real plural word for it
 List<Thing> objects = [
   Thing(name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white)),
   Thing(name: "Ball", icon: const Icon(Icons.sports_soccer, color: Colors.white)),

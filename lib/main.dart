@@ -12,7 +12,7 @@ import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
 
 //TODO: when you double click the text box, have a keyboard popup?
-
+//TODO: integrate the new and improved tts into all of the pages, not just main(using globalVars.tts)
 GlobalVars globalVars = GlobalVars(tts: TextToSpeech());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

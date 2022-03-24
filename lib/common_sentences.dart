@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'main.dart';
 
 String _currentVoiceText = "";
 
@@ -16,7 +16,6 @@ class CommonSentencesPage extends StatefulWidget {
 }
 
 class _CommonSentencesPageState extends State<CommonSentencesPage> {
-  final FlutterTts tts = FlutterTts();
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;
@@ -24,10 +23,6 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
     });
   }
 
-  _CommonSentencesPageState() {
-    tts.setLanguage('en');
-    tts.setSpeechRate(0.4);
-  }
   @override
   void initState() {
     super.initState();
@@ -42,7 +37,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          tts.speak(_currentVoiceText);
+          globalVars.tts.speak(_currentVoiceText);
         },
         heroTag: 'readaloudbtn',
         backgroundColor: Colors.grey,

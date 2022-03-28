@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'main.dart';
 
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
-//TODO: Double click for plural
+//TODO: add in plural variable for objects so it isn't just adding an s on, but uses a real plural word for it
 List<Thing> objects = [
   Thing(name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white)),
   Thing(name: "Ball", icon: const Icon(Icons.sports_soccer, color: Colors.white)),
@@ -44,8 +44,6 @@ class _ObjectsPageState extends State<ObjectsPage> {
     });
   }
 
-  final FlutterTts tts = FlutterTts();
-
   @override
   void initState() {
     super.initState();
@@ -62,10 +60,6 @@ class _ObjectsPageState extends State<ObjectsPage> {
     }
   }
 
-  _ObjectsPageState() {
-    tts.setLanguage('en');
-    tts.setSpeechRate(0.4);
-  }
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -74,7 +68,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
       appBar: AppBar(title: const Text("Objects")),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          tts.speak(_currentVoiceText);
+          globalVars.tts.speak(_currentVoiceText);
         },
         heroTag: 'readaloudbtn',
         backgroundColor: Colors.grey,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thoughtspeech/profile.dart';
 import 'firebase_options.dart';
@@ -9,7 +8,11 @@ import 'actions.dart' show ActionsPage;
 import 'package:thoughtspeech/common_sentences.dart' show CommonSentencesPage;
 import 'pronouns.dart' show PronounsPage;
 import 'objects.dart' show ObjectsPage;
+import 'package:text_to_speech/text_to_speech.dart';
+import 'globals.dart' show GlobalVars;
 
+//TODO: when you double click the text box, have a keyboard popup?
+GlobalVars globalVars = GlobalVars(tts: TextToSpeech());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,17 +36,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+///Home page of the app that has buttons to navigate to different parts of speech and various other screens
+///Is a stateful widget because the text in the box at the top changes when the user chhoses words to add or clears etc.
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -52,32 +48,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final FlutterTts tts = FlutterTts();
   String _voiceText = "";
-
   void _handleVoiceTextChanged(String newValue) {
     setState(() {
       _voiceText = newValue;
     });
   }
 
-  _MyHomePageState() {
-    tts.setLanguage('en');
-    tts.setSpeechRate(0.4);
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
           automaticallyImplyLeading: false,
           actions: [
@@ -108,10 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        //Button to make it read aloud? not sure just copying the figma
+        //Button to make it read aloud text
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            tts.speak(_voiceText);
+            globalVars.tts.speak(_voiceText);
           },
           heroTag: 'readaloudbtn',
           backgroundColor: Colors.grey,
@@ -121,9 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //Read aloud text
+              //Read aloud textbox
               Stack(
                 children: [
+                  //Text box that has the text to read aloud
                   Container(
                     width: MediaQuery.of(context).size.width * .9,
                     height: MediaQuery.of(context).size.height * .15,
@@ -135,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
+                  //Button to clear the text box, only appears when there is text in the box
                   Visibility(
                     visible: _voiceText != "",
                     child: Positioned(

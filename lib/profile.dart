@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //allows logins
 import 'package:thoughtspeech/login.dart'; //login page
 import 'package:thoughtspeech/main.dart'; //main page
-//import 'package:cloud_firestore/cloud_firestore.dart'; //allows us to store data to the cloud
+import 'package:cloud_firestore/cloud_firestore.dart'; //allows us to store data to the cloud
 
 //The page tht displays the users profile and various details associated with it
 class ProfilePage extends StatefulWidget {
@@ -78,7 +78,10 @@ class _ProfilePageState extends State<ProfilePage> {
     globalVars.tts.setVolume(volume);
 
     String uid = widget.user.uid;
-    //DocumentReference doc = FirebaseFirestore.instance.collection("Users").doc(uid);
+    DocumentReference doc = FirebaseFirestore.instance.collection("Users").doc(uid);
+    doc.set(
+      {"language": language ?? defaultLanguage, "pitch": pitch, "rate": rate, "volume": volume},
+    );
   }
 
   Future<String?> getVoiceByLang(String lang) async {
@@ -142,7 +145,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 showCursor: true,
               ),
-              //TODO: Personalize the voice, langauge, speed, and tone of the voice
               //Voice of the speaker
               Row(
                 children: <Widget>[

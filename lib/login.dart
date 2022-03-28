@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'profile.dart' show ProfilePage;
 import 'package:thoughtspeech/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; //allows us to store data to the cloud
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -319,6 +320,9 @@ void _submitLogin(email, pass, context) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: pass);
+      //import their data :)
+      getUserData();
+      //Naviagte to their profile page
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -363,9 +367,9 @@ void _forgotPassword(String email, BuildContext context) {
 void _createAccount(String email, String pass, String pass2, BuildContext context) async {
   if (pass == pass2) {
     try {
-      // ignore: unused_local_variable
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pass);
+      //actually create the account
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pass);
+      await createDoc();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showDialog(
@@ -432,4 +436,17 @@ void _submitInfo(String name, BuildContext context) {
   } catch (e) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
+}
+
+Future<void> createDoc() async {
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  DocumentReference doc = FirebaseFirestore.instance.collection("Users").doc(uid);
+  doc.set(
+    {
+      "language": globalVars.language,
+      "pitch": globalVars.pitch,
+      "rate": globalVars.rate,
+      "volume": globalVars.volume
+    },
+  );
 }

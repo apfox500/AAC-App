@@ -4,6 +4,7 @@ import 'main.dart';
 
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
+//TODO: make background color a random primamry colr in the actual Thing class, so it doesn't change colors evry time you call setstate(otherwise it goes crazy)
 //TODO: add in plural variable for objects so it isn't just adding an s on, but uses a real plural word for it
 List<Thing> objects = [
   Thing(name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white)),

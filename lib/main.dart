@@ -11,7 +11,9 @@ import 'objects.dart' show ObjectsPage;
 import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
 
+//TODO: you lose the text in the seak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup?
+//TODO: have the frequency of clicks also be date based, so it only does like the most used in the last month(What he guy said in our interview)
 GlobalVars globalVars = GlobalVars(tts: TextToSpeech());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

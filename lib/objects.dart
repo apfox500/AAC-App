@@ -410,9 +410,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 }
 
-Color randomColor() {
-  return Colors.primaries[Random().nextInt(Colors.primaries.length)];
-}
+Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
 class Thing extends Comparable {
   final String name;

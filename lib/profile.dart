@@ -67,7 +67,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void updateSettings() {
-    //TODO: upload the user's information to the cloud
     globalVars.language = language ?? defaultLanguage;
     globalVars.pitch = pitch;
     globalVars.rate = rate;

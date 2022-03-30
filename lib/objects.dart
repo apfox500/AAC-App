@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-//TODO: fix shadow at top
 //TODO: the objects move too quickly after pressing, maybe just have them move when you open the page
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
@@ -125,18 +124,98 @@ class _ObjectsPageState extends State<ObjectsPage> {
                 double width = MediaQuery.of(context).size.width * .9;
                 double _defaultHeight = height / 6.7;
                 double _defaultWidth = width / 2.05;
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            GestureDetector(
-                              onDoubleTap: () => objectButtonPressed(labels[0], plural: true),
-                              child: Container(
+                return Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                onDoubleTap: () => objectButtonPressed(labels[0], plural: true),
+                                child: Container(
+                                  width: _defaultWidth,
+                                  height: _defaultHeight,
+                                  decoration: BoxDecoration(
+                                    color: randomColor(),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: const Offset(0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      objectButtonPressed(labels[0]);
+                                    },
+                                    child: (labels[0].hasIcon())
+                                        ? Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              labels[0].icon!,
+                                              Text(
+                                                labels[0].toString(),
+                                                style: TextStyle(
+                                                    color:
+                                                        Theme.of(context).colorScheme.onBackground),
+                                              ),
+                                            ],
+                                          )
+                                        : Text(
+                                            labels[0].toString(),
+                                            style: TextStyle(
+                                                color: Theme.of(context).colorScheme.onBackground),
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              Container(height: height * .05),
+                              Container(
+                                width: _defaultWidth,
+                                height: _defaultHeight * 2,
+                                decoration: BoxDecoration(
+                                  color: randomColor(),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  onPressed: () => objectButtonPressed(labels[1]),
+                                  child: (labels[1].hasIcon())
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            labels[1].icon!,
+                                            Text(
+                                              labels[1].toString(),
+                                              style: TextStyle(
+                                                  color: Theme.of(context).colorScheme.onBackground),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          labels[1].toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                ),
+                              ),
+                              Container(height: height * .05),
+                              Container(
                                 width: _defaultWidth,
                                 height: _defaultHeight,
                                 decoration: BoxDecoration(
@@ -152,260 +231,184 @@ class _ObjectsPageState extends State<ObjectsPage> {
                                   ],
                                 ),
                                 child: TextButton(
-                                  onPressed: () {
-                                    objectButtonPressed(labels[0]);
-                                  },
-                                  child: (labels[0].hasIcon())
+                                  onPressed: () => objectButtonPressed(labels[2]),
+                                  child: (labels[2].hasIcon())
                                       ? Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            labels[0].icon!,
+                                            labels[2].icon!,
                                             Text(
-                                              labels[0].toString(),
+                                              labels[2].toString(),
                                               style: TextStyle(
                                                   color: Theme.of(context).colorScheme.onBackground),
                                             ),
                                           ],
                                         )
                                       : Text(
-                                          labels[0].toString(),
+                                          labels[2].toString(),
                                           style: TextStyle(
                                               color: Theme.of(context).colorScheme.onBackground),
                                         ),
                                 ),
                               ),
-                            ),
-                            Container(height: height * .05),
-                            Container(
-                              width: _defaultWidth,
-                              height: _defaultHeight * 2,
-                              decoration: BoxDecoration(
-                                color: randomColor(),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: randomColor(),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                width: _defaultWidth,
+                                height: _defaultHeight,
+                                child: TextButton(
+                                  onPressed: () => objectButtonPressed(labels[3]),
+                                  child: (labels[3].hasIcon())
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            labels[3].icon!,
+                                            Text(
+                                              labels[3].toString(),
+                                              style: TextStyle(
+                                                  color: Theme.of(context).colorScheme.onBackground),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          labels[3].toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                ),
                               ),
-                              child: TextButton(
-                                onPressed: () => objectButtonPressed(labels[1]),
-                                child: (labels[1].hasIcon())
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          labels[1].icon!,
-                                          Text(
-                                            labels[1].toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context).colorScheme.onBackground),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        labels[1].toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground),
-                                      ),
+                              Container(height: height * .05),
+                              Container(
+                                width: _defaultWidth,
+                                height: _defaultHeight,
+                                decoration: BoxDecoration(
+                                  color: randomColor(),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  onPressed: () => objectButtonPressed(labels[4]),
+                                  child: (labels[4].hasIcon())
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            labels[4].icon!,
+                                            Text(
+                                              labels[4].toString(),
+                                              style: TextStyle(
+                                                  color: Theme.of(context).colorScheme.onBackground),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          labels[4].toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                ),
                               ),
-                            ),
-                            Container(height: height * .05),
-                            Container(
-                              width: _defaultWidth,
-                              height: _defaultHeight,
-                              decoration: BoxDecoration(
-                                color: randomColor(),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
+                              Container(height: height * .05),
+                              Container(
+                                width: _defaultWidth,
+                                height: _defaultHeight * 2,
+                                decoration: BoxDecoration(
+                                  color: randomColor(),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  onPressed: () => objectButtonPressed(labels[5]),
+                                  child: (labels[5].hasIcon())
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            labels[5].icon!,
+                                            Text(
+                                              labels[5].toString(),
+                                              style: TextStyle(
+                                                  color: Theme.of(context).colorScheme.onBackground),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          labels[5].toString(),
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                ),
                               ),
-                              child: TextButton(
-                                onPressed: () => objectButtonPressed(labels[2]),
-                                child: (labels[2].hasIcon())
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          labels[2].icon!,
-                                          Text(
-                                            labels[2].toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context).colorScheme.onBackground),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        labels[2].toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground),
-                                      ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                color: randomColor(),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              width: _defaultWidth,
-                              height: _defaultHeight,
-                              child: TextButton(
-                                onPressed: () => objectButtonPressed(labels[3]),
-                                child: (labels[3].hasIcon())
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          labels[3].icon!,
-                                          Text(
-                                            labels[3].toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context).colorScheme.onBackground),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        labels[3].toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground),
-                                      ),
-                              ),
-                            ),
-                            Container(height: height * .05),
-                            Container(
-                              width: _defaultWidth,
-                              height: _defaultHeight,
-                              decoration: BoxDecoration(
-                                color: randomColor(),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: TextButton(
-                                onPressed: () => objectButtonPressed(labels[4]),
-                                child: (labels[4].hasIcon())
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          labels[4].icon!,
-                                          Text(
-                                            labels[4].toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context).colorScheme.onBackground),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        labels[4].toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground),
-                                      ),
-                              ),
-                            ),
-                            Container(height: height * .05),
-                            Container(
-                              width: _defaultWidth,
-                              height: _defaultHeight * 2,
-                              decoration: BoxDecoration(
-                                color: randomColor(),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: TextButton(
-                                onPressed: () => objectButtonPressed(labels[5]),
-                                child: (labels[5].hasIcon())
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          labels[5].icon!,
-                                          Text(
-                                            labels[5].toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context).colorScheme.onBackground),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        labels[5].toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground),
-                                      ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Container(height: height * .05),
-                    Container(
-                      width: _defaultWidth * 2.1,
-                      height: _defaultHeight,
-                      decoration: BoxDecoration(
-                        color: randomColor(),
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
+                            ],
                           ),
                         ],
                       ),
-                      child: TextButton(
-                        onPressed: () => objectButtonPressed(labels[6]),
-                        child: (labels[6].hasIcon())
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  labels[6].icon!,
-                                  Text(
-                                    labels[6].toString(),
-                                    style:
-                                        TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                                  ),
-                                ],
-                              )
-                            : Text(
-                                labels[6].toString(),
-                                style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                              ),
+                      Container(height: height * .05),
+                      Container(
+                        width: _defaultWidth * 2.1,
+                        height: _defaultHeight,
+                        decoration: BoxDecoration(
+                          color: randomColor(),
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: TextButton(
+                          onPressed: () => objectButtonPressed(labels[6]),
+                          child: (labels[6].hasIcon())
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    labels[6].icon!,
+                                    Text(
+                                      labels[6].toString(),
+                                      style: TextStyle(
+                                          color: Theme.of(context).colorScheme.onBackground),
+                                    ),
+                                  ],
+                                )
+                              : Text(
+                                  labels[6].toString(),
+                                  style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                                ),
+                        ),
                       ),
-                    ),
-                    Container(height: height * .05),
-                  ],
+                      Container(height: height * .05),
+                    ],
+                  ),
                 );
               }),
             ),

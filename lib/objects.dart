@@ -6,11 +6,13 @@ import 'main.dart';
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
 //TODO: make background color a random primamry colr in the actual Thing class, so it doesn't change colors evry time you call setstate(otherwise it goes crazy)
-//TODO: add in plural variable for objects so it isn't just adding an s on, but uses a real plural word for it
 List<Thing> objects = [
   Thing(name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white)),
   Thing(name: "Ball", icon: const Icon(Icons.sports_soccer, color: Colors.white)),
-  Thing(name: "Sandwich", icon: const Icon(Icons.lunch_dining, color: Colors.white)),
+  Thing(
+      name: "Sandwich",
+      icon: const Icon(Icons.lunch_dining, color: Colors.white),
+      plural: "Sandwiches"),
   Thing(name: "Football", icon: const Icon(Icons.sports_football, color: Colors.white)),
   Thing(name: "Field"),
   Thing(name: "Computer", icon: const Icon(Icons.computer, color: Colors.white)),
@@ -20,9 +22,7 @@ List<Thing> objects = [
     name: "Pen",
   ),
   Thing(name: "School", icon: const Icon(Icons.school, color: Colors.white)),
-  Thing(
-    name: "Airpods",
-  ),
+  Thing(name: "Airpod", plural: "Airpods"),
   Thing(name: "Phone", icon: const Icon(Icons.phone_iphone, color: Colors.white)),
   Thing(name: "TV", icon: const Icon(Icons.tv, color: Colors.white)),
   Thing(name: "Water", icon: const Icon(Icons.water, color: Colors.white)),
@@ -58,7 +58,11 @@ class _ObjectsPageState extends State<ObjectsPage> {
     if (!plural) {
       _handleTextUpdate(_currentVoiceText + " " + input.name);
     } else {
-      _handleTextUpdate(_currentVoiceText + " " + input.name + "s");
+      if (input.plural == null) {
+        _handleTextUpdate(_currentVoiceText + " " + input.name + "s");
+      } else {
+        _handleTextUpdate(_currentVoiceText + " " + input.plural!);
+      }
     }
   }
 
@@ -415,11 +419,12 @@ Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length
 
 class Thing extends Comparable {
   final String name;
+  String? plural;
 
   Icon? icon;
   int freq = 0;
 
-  Thing({required this.name, this.icon});
+  Thing({required this.name, this.icon, this.plural});
 
   @override
   String toString() {

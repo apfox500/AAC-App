@@ -101,7 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MyHomePage(title: (widget.user.displayName! + "'s Home Page")),
+              builder: (context) =>
+                  MyHomePage(title: ((widget.user.displayName ?? "New User") + "'s Home Page")),
             ),
           ),
         ),

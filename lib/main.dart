@@ -13,7 +13,7 @@ import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
 
 //TODO: you lose the text in the seak text box thingy  when you go into/out of profile and login pages
-//TODO: when you double click the text box, have a keyboard popup?
+//TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
 //TODO: have the frequency of clicks also be date based, so it only does like the most used in the last month(What he guy said in our interview)
 late GlobalVars globalVars;
 void main() async {
@@ -314,9 +314,9 @@ Future<void> getUserData() async {
       .then((DocumentSnapshot documentSnapshot) {
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
     //once we have the map, then we assign to some variables and change our global variable
-    double pitch = double.parse(data["pitch"]);
-    double volume = double.parse(data["volume"]);
-    double rate = double.parse(data["rate"]);
+    double pitch = data["pitch"];
+    double volume = data["volume"];
+    double rate = data["rate"];
     String language = data["language"];
     globalVars.language = language;
     globalVars.pitch = pitch;

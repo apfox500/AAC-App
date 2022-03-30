@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart'; //allows logins
 import 'package:thoughtspeech/login.dart'; //login page
 import 'package:thoughtspeech/main.dart'; //main page
 import 'package:cloud_firestore/cloud_firestore.dart'; //allows us to store data to the cloud
+import 'transitions.dart'; //file with all the transitions
 
 //The page tht displays the users profile and various details associated with it
 class ProfilePage extends StatefulWidget {
@@ -100,9 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: const Icon(Icons.home),
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  MyHomePage(title: ((widget.user.displayName ?? "New User") + "'s Home Page")),
+            SlideRightRoute(
+              page: MyHomePage(title: ((widget.user.displayName ?? "New User") + "'s Home Page")),
             ),
           ),
         ),

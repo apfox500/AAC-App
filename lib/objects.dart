@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
+//TODO: the objects move too quickly after pressing, maybe just have them move when you open the page
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly
 //TODO: make background color a random primamry colr in the actual Thing class, so it doesn't change colors evry time you call setstate(otherwise it goes crazy)

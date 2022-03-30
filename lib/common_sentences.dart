@@ -4,7 +4,6 @@ import 'main.dart';
 
 String _currentVoiceText = "";
 
-//TODO: fix color of text
 class CommonSentencesPage extends StatefulWidget {
   const CommonSentencesPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);

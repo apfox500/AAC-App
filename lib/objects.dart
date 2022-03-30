@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
+//TODO: fix shadow at top
 //TODO: the objects move too quickly after pressing, maybe just have them move when you open the page
 // Possibility to count number of times used and order the list based on frequency of use
 // This needs to be divisible by 7 or it goes poorly

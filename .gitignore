@@ -51,11 +51,14 @@ analysis_benchmark.json
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
+.dart_tool/ 2
 .flutter-plugins
 .flutter-plugins 2
 .flutter-plugins-dependencies
+.flutter-plugins-dependencies 2
 **/generated_plugin_registrant.dart
 .packages
+.packages 2
 .pub-cache/
 .pub/
 build/

@@ -11,6 +11,7 @@ import 'pronouns.dart' show PronounsPage;
 import 'objects.dart' show ObjectsPage;
 import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
+import 'transitions.dart'; //file with all the transitions
 
 //TODO: you lose the text in the seak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
@@ -154,8 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ObjectsPage(
+                    ScaleRoute(
+                      page: ObjectsPage(
                         voiceText: _voiceText,
                         setTextValue: _handleVoiceTextChanged,
                       ),
@@ -198,8 +199,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => ActionsPage(
+                              ScaleRoute(
+                                page: ActionsPage(
                                   voiceText: _voiceText,
                                   setTextValue: _handleVoiceTextChanged,
                                 ),
@@ -235,8 +236,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => CommonSentencesPage(
+                              ScaleRoute(
+                                page: CommonSentencesPage(
                                   voiceText: _voiceText,
                                   setTextValue: _handleVoiceTextChanged,
                                 ),
@@ -272,8 +273,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => PronounsPage(
+                          ScaleRoute(
+                            page: PronounsPage(
                               voiceText: _voiceText,
                               setTextValue: _handleVoiceTextChanged,
                             ),

@@ -191,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    //Actions
+                    //Pronouns
                     Container(
                       width: MediaQuery.of(context).size.width * .44,
                       height: MediaQuery.of(context).size.height * .15,
@@ -200,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.push(
                               context,
                               ScaleRoute(
-                                page: ActionsPage(
+                                page: PronounsPage(
                                   voiceText: _voiceText,
                                   setTextValue: _handleVoiceTextChanged,
                                 ),
@@ -208,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                           child: Text(
-                            "Actions",
+                            "Pronouns",
                             style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                           )),
                       decoration: BoxDecoration(
@@ -265,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 //Padding
                 const SizedBox(width: 25),
-                //Pronouns
+                //Actions
                 Container(
                   width: MediaQuery.of(context).size.width * .43,
                   height: 270,
@@ -274,7 +274,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           ScaleRoute(
-                            page: PronounsPage(
+                            page: ActionsPage(
                               voiceText: _voiceText,
                               setTextValue: _handleVoiceTextChanged,
                             ),
@@ -282,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       },
                       child: Text(
-                        "Pronouns",
+                        "Actions",
                         style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                       )),
                   decoration: BoxDecoration(

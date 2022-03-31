@@ -4,6 +4,9 @@ import 'main.dart';
 
 String _currentVoiceText = "";
 
+//TODO:  remake pronouns page to include all of them
+//for refrence:https://en.wikipedia.org/wiki/English_pronouns#Full_list
+//make it popup like the actions page when you choose a specific one
 class PronounsPage extends StatefulWidget {
   const PronounsPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
@@ -79,7 +82,7 @@ class _PronounsPageState extends State<PronounsPage> {
             const SizedBox(
               height: 25,
             ),
-            //My name is
+            //I
             Container(
               width: MediaQuery.of(context).size.width * .9,
               height: MediaQuery.of(context).size.height * .08,

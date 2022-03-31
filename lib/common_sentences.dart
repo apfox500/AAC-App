@@ -4,7 +4,6 @@ import 'main.dart';
 
 String _currentVoiceText = "";
 
-//TODO: fix color of text
 class CommonSentencesPage extends StatefulWidget {
   const CommonSentencesPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
@@ -105,10 +104,15 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         });
                   }
                 },
-                child: const Text("Hello, My Name is..."),
+                child: Text(
+                  "Hello, My Name is...",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                ),
               ),
               decoration: BoxDecoration(
-                color: Colors.yellow.shade200,
+                color: const Color.fromARGB(255, 255, 230, 0),
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
@@ -138,7 +142,12 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         onPressed: () {
                           _handleTextUpdate("Goodbye");
                         },
-                        child: const Text("Goodbye"),
+                        child: Text(
+                          "Goodbye",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple.shade200,
@@ -163,9 +172,14 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                       height: MediaQuery.of(context).size.height * .3,
                       child: TextButton(
                         onPressed: () {
-                          _handleTextUpdate("Lorem Ipsum");
+                          _handleTextUpdate("I like you");
                         },
-                        child: const Text("Lorem Ipsum"),
+                        child: Text(
+                          "I like you",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.redAccent.shade100,
@@ -196,7 +210,12 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         onPressed: () {
                           _handleTextUpdate("Good Job");
                         },
-                        child: const Text("Good Job"),
+                        child: Text(
+                          "Good Job",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.redAccent.shade100,
@@ -223,7 +242,12 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         onPressed: () {
                           _handleTextUpdate("I am Hungry");
                         },
-                        child: const Text("I am Hungry"),
+                        child: Text(
+                          "I am Hungry",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple.shade200,
@@ -254,7 +278,12 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                 onPressed: () {
                   _handleTextUpdate("I don't know");
                 },
-                child: const Text("I don't know"),
+                child: Text(
+                  "I don't know",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                ),
               ),
               decoration: BoxDecoration(
                 color: Colors.lightBlue.shade100,

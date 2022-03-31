@@ -5,6 +5,8 @@ import 'package:thoughtspeech/main.dart'; //main page
 import 'package:cloud_firestore/cloud_firestore.dart'; //allows us to store data to the cloud
 import 'transitions.dart'; //file with all the transitions
 
+//TODO: make tags for users, and then implement them
+
 //The page tht displays the users profile and various details associated with it
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);

@@ -13,6 +13,8 @@ import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
 import 'transitions.dart'; //file with all the transitions
 
+//TODO: add in the other parts of speech(scroll view/listview)
+//TODO: go and comment everything, make the whole file comments
 //TODO: you lose the text in the speak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
 //TODO: have the frequency of clicks also be date based, so it only does like the most used in the last month(What the guy said in our interview)
@@ -182,9 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             //padding
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -225,9 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     //Padding
-                    const SizedBox(
-                      height: 25,
-                    ),
+                    const SizedBox(height: 25),
                     //Common Sentences
                     Container(
                       width: MediaQuery.of(context).size.width * .44,

@@ -5,6 +5,7 @@ import 'main.dart';
 String _currentVoiceText = "";
 
 //TODO:  remake pronouns page to include all of them
+//TODO: fix color changing on pronouns page
 //for refrence:https://en.wikipedia.org/wiki/English_pronouns#Full_list
 //make it popup like the actions page when you choose a specific one
 class PronounsPage extends StatefulWidget {

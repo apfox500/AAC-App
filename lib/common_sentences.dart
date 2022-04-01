@@ -5,7 +5,7 @@ import 'main.dart';
 String _currentVoiceText = "";
 
 //TODO: add in more senteces(scrollable list of them, like the rest of the other pages, we need more)
-//TODO: Let user amke their own common sentences(profile page)
+//TODO: Let user make their own common sentences(profile page or maybe just a plus button at the bottom left)
 class CommonSentencesPage extends StatefulWidget {
   const CommonSentencesPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);

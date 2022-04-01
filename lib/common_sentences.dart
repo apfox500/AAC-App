@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
 
-String _currentVoiceText = "";
-
+//TODO: add in more senteces(scrollable list of them, like the rest of the other pages, we need more)
+//TODO: Let user make their own common sentences(profile page or maybe just a plus button at the bottom left)
 class CommonSentencesPage extends StatefulWidget {
   const CommonSentencesPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
@@ -16,6 +16,7 @@ class CommonSentencesPage extends StatefulWidget {
 }
 
 class _CommonSentencesPageState extends State<CommonSentencesPage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

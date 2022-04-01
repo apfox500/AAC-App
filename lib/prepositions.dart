@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-String _currentVoiceText = "";
-
 //TODO: make the Prepositions page
 class PrepositionPage extends StatefulWidget {
   const PrepositionPage({Key? key, required this.voiceText, required this.setTextValue})
@@ -15,6 +13,7 @@ class PrepositionPage extends StatefulWidget {
 }
 
 class _PrepositionPageState extends State<PrepositionPage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'main.dart';
 
-String _currentVoiceText = "";
-
 //TODO:  remake pronouns page to include all of them
 //TODO: fix color changing on pronouns page
 //for refrence:https://en.wikipedia.org/wiki/English_pronouns#Full_list
@@ -20,6 +18,7 @@ class PronounsPage extends StatefulWidget {
 }
 
 class _PronounsPageState extends State<PronounsPage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

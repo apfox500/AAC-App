@@ -2,8 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'buttons.dart';
+import 'dictionary.dart';
 
 // This needs to be divisible by 7 or it goes poorly
+//list of objects
 List<Thing> objects = [
   Thing(
       name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white), color: randomColor()),
@@ -32,7 +34,6 @@ List<Thing> objects = [
   Thing(name: "TV", icon: const Icon(Icons.tv, color: Colors.white), color: randomColor()),
   Thing(name: "Water", icon: const Icon(Icons.water, color: Colors.white), color: randomColor()),
 ];
-String _currentVoiceText = "";
 
 class ObjectsPage extends StatefulWidget {
   const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue})
@@ -44,6 +45,7 @@ class ObjectsPage extends StatefulWidget {
 }
 
 class _ObjectsPageState extends State<ObjectsPage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

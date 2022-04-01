@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-String _currentVoiceText = "";
-
 //TODO: make the adjectives page
 class AdjectivePage extends StatefulWidget {
   const AdjectivePage({Key? key, required this.voiceText, required this.setTextValue})
@@ -15,6 +13,7 @@ class AdjectivePage extends StatefulWidget {
 }
 
 class _AdjectivePageState extends State<AdjectivePage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

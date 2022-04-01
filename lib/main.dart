@@ -65,6 +65,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _voiceText = "";
+
   void _handleVoiceTextChanged(String newValue) {
     setState(() {
       _voiceText = newValue;
@@ -73,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -132,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     //Text box that has the text to read aloud
                     Container(
-                      width: MediaQuery.of(context).size.width * .9,
-                      height: MediaQuery.of(context).size.height * .15,
+                      width: width * .9,
+                      height: height * .15,
                       child: Center(child: Text(_voiceText)),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -161,8 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 25),
                 //Objects
                 Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
+                  width: width * .9,
+                  height: height * .15,
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -203,8 +206,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         //Pronouns
                         Container(
-                          width: MediaQuery.of(context).size.width * .44,
-                          height: MediaQuery.of(context).size.height * .15,
+                          width: width * .44,
+                          height: height * .15,
                           child: TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -238,8 +241,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         const SizedBox(height: 25),
                         //Common Sentences
                         Container(
-                          width: MediaQuery.of(context).size.width * .44,
-                          height: MediaQuery.of(context).size.height * .15,
+                          width: width * .44,
+                          height: height * .15,
                           child: TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -275,8 +278,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(width: 25),
                     //Actions
                     Container(
-                      width: MediaQuery.of(context).size.width * .43,
-                      height: MediaQuery.of(context).size.height * .34,
+                      width: width * .43,
+                      height: height * .34,
                       child: TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -312,8 +315,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 25),
                 //Adjectives
                 Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
+                  width: width * .9,
+                  height: height * .15,
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -351,8 +354,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     //Adverbs
                     Container(
-                      width: MediaQuery.of(context).size.width * .43,
-                      height: MediaQuery.of(context).size.height * .34,
+                      width: width * .43,
+                      height: height * .34,
                       child: TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -388,8 +391,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         //Prepositions
                         Container(
-                          width: MediaQuery.of(context).size.width * .44,
-                          height: MediaQuery.of(context).size.height * .15,
+                          width: width * .44,
+                          height: height * .15,
                           child: TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -423,8 +426,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         const SizedBox(height: 25),
                         //Interjections
                         Container(
-                          width: MediaQuery.of(context).size.width * .44,
-                          height: MediaQuery.of(context).size.height * .15,
+                          width: width * .44,
+                          height: height * .15,
                           child: TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -462,8 +465,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 25),
                 //Conjunctions
                 Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
+                  width: width * .9,
+                  height: height * .15,
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(

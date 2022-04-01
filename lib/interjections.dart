@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-String _currentVoiceText = "";
-
 //TODO: make the Interjections page
 class InterjectionPage extends StatefulWidget {
   const InterjectionPage({Key? key, required this.voiceText, required this.setTextValue})
@@ -15,6 +13,7 @@ class InterjectionPage extends StatefulWidget {
 }
 
 class _InterjectionPageState extends State<InterjectionPage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

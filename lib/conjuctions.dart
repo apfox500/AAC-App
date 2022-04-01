@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-String _currentVoiceText = "";
-
 //TODO: make the Conjunctions page
 class ConjunctionPage extends StatefulWidget {
   const ConjunctionPage({Key? key, required this.voiceText, required this.setTextValue})
@@ -15,6 +13,7 @@ class ConjunctionPage extends StatefulWidget {
 }
 
 class _ConjunctionPageState extends State<ConjunctionPage> {
+  String _currentVoiceText = "";
   void _handleTextUpdate(String value) {
     setState(() {
       _currentVoiceText = value;

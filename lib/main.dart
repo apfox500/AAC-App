@@ -12,8 +12,13 @@ import 'objects.dart' show ObjectsPage;
 import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
 import 'transitions.dart'; //file with all the transitions
+import 'adjectives.dart' show AdjectivePage;
+import 'adverbs.dart' show AdverbPage;
+import 'prepositions.dart' show PrepositionPage;
+import 'interjections.dart' show InterjectionPage;
+import 'conjuctions.dart' show ConjunctionPage;
 
-//TODO: add in the other parts of speech(scroll view/listview)
+//TODO: popup(snackbar) with suggested next page after choosing a button(i.e. after selecting an adjective, suggest objects, or after selecting adverb, suggest actions)
 //TODO: go and comment everything, make the whole file comments
 //TODO: you lose the text in the speak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
@@ -112,130 +117,172 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.record_voice_over),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(8),
           children: <Widget>[
-            //Read aloud textbox
-            Stack(
+            Column(
               children: [
-                //Text box that has the text to read aloud
+                //padding
+                const SizedBox(
+                  height: 25,
+                ),
+                //Read aloud textbox
+                Stack(
+                  children: [
+                    //Text box that has the text to read aloud
+                    Container(
+                      width: MediaQuery.of(context).size.width * .9,
+                      height: MediaQuery.of(context).size.height * .15,
+                      child: Center(child: Text(_voiceText)),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blue,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    //Button to clear the text box, only appears when there is text in the box
+                    Visibility(
+                      visible: _voiceText != "",
+                      child: Positioned(
+                        right: 0,
+                        child: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            _handleVoiceTextChanged("");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                //padding
+                const SizedBox(height: 25),
+                //Objects
                 Container(
                   width: MediaQuery.of(context).size.width * .9,
                   height: MediaQuery.of(context).size.height * .15,
-                  child: Center(child: Text(_voiceText)),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        ScaleRoute(
+                          page: ObjectsPage(
+                            voiceText: _voiceText,
+                            setTextValue: _handleVoiceTextChanged,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Objects",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                    ),
+                  ),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
+                    color: Colors.purple.shade200,
                     borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                //Button to clear the text box, only appears when there is text in the box
-                Visibility(
-                  visible: _voiceText != "",
-                  child: Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _handleVoiceTextChanged("");
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            //padding
-            const SizedBox(
-              height: 25,
-            ),
-            //Objects
-            Container(
-              width: MediaQuery.of(context).size.width * .89,
-              height: MediaQuery.of(context).size.height * .15,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    ScaleRoute(
-                      page: ObjectsPage(
-                        voiceText: _voiceText,
-                        setTextValue: _handleVoiceTextChanged,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3), // changes position of shadow
                       ),
-                    ),
-                  );
-                },
-                child: Text(
-                  "Objects",
-                  style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                ),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.purple.shade200,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
+                    ],
                   ),
-                ],
-              ),
-            ),
-            //padding
-            const SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
+                ),
+                //padding
+                const SizedBox(height: 25),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    //Pronouns
-                    Container(
-                      width: MediaQuery.of(context).size.width * .44,
-                      height: MediaQuery.of(context).size.height * .15,
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              ScaleRoute(
-                                page: PronounsPage(
-                                  voiceText: _voiceText,
-                                  setTextValue: _handleVoiceTextChanged,
-                                ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        //Pronouns
+                        Container(
+                          width: MediaQuery.of(context).size.width * .44,
+                          height: MediaQuery.of(context).size.height * .15,
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  ScaleRoute(
+                                    page: PronounsPage(
+                                      voiceText: _voiceText,
+                                      setTextValue: _handleVoiceTextChanged,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Pronouns",
+                                style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                              )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.pink.shade300,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3), // changes position of shadow
                               ),
-                            );
-                          },
-                          child: Text(
-                            "Pronouns",
-                            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                          )),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.pink.shade300,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        //Padding
+                        const SizedBox(height: 25),
+                        //Common Sentences
+                        Container(
+                          width: MediaQuery.of(context).size.width * .44,
+                          height: MediaQuery.of(context).size.height * .15,
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  ScaleRoute(
+                                    page: CommonSentencesPage(
+                                      voiceText: _voiceText,
+                                      setTextValue: _handleVoiceTextChanged,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Common Sentences",
+                                style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                              )),
+                          decoration: BoxDecoration(
+                            color: Colors.lightGreen,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     //Padding
-                    const SizedBox(height: 25),
-                    //Common Sentences
+                    const SizedBox(width: 25),
+                    //Actions
                     Container(
-                      width: MediaQuery.of(context).size.width * .44,
-                      height: MediaQuery.of(context).size.height * .15,
+                      width: MediaQuery.of(context).size.width * .43,
+                      height: MediaQuery.of(context).size.height * .34,
                       child: TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               ScaleRoute(
-                                page: CommonSentencesPage(
+                                page: ActionsPage(
                                   voiceText: _voiceText,
                                   setTextValue: _handleVoiceTextChanged,
                                 ),
@@ -243,11 +290,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                           child: Text(
-                            "Common Sentences",
+                            "Actions",
                             style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                           )),
                       decoration: BoxDecoration(
-                        color: Colors.lightGreen,
+                        color: Colors.orange,
                         borderRadius: BorderRadius.circular(10.0),
                         boxShadow: [
                           BoxShadow(
@@ -261,30 +308,31 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-                //Padding
-                const SizedBox(width: 25),
-                //Actions
+                //padding
+                const SizedBox(height: 25),
+                //Adjectives
                 Container(
-                  width: MediaQuery.of(context).size.width * .43,
-                  height: 270,
+                  width: MediaQuery.of(context).size.width * .9,
+                  height: MediaQuery.of(context).size.height * .15,
                   child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          ScaleRoute(
-                            page: ActionsPage(
-                              voiceText: _voiceText,
-                              setTextValue: _handleVoiceTextChanged,
-                            ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        ScaleRoute(
+                          page: AdjectivePage(
+                            voiceText: _voiceText,
+                            setTextValue: _handleVoiceTextChanged,
                           ),
-                        );
-                      },
-                      child: Text(
-                        "Actions",
-                        style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
-                      )),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Adjectives",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                    ),
+                  ),
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: const Color.fromARGB(255, 57, 0, 150),
                     borderRadius: BorderRadius.circular(10.0),
                     boxShadow: [
                       BoxShadow(
@@ -296,6 +344,158 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
+                //padding
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //Adverbs
+                    Container(
+                      width: MediaQuery.of(context).size.width * .43,
+                      height: MediaQuery.of(context).size.height * .34,
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              ScaleRoute(
+                                page: AdverbPage(
+                                  voiceText: _voiceText,
+                                  setTextValue: _handleVoiceTextChanged,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Adverbs",
+                            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                          )),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(202, 0, 255, 242),
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 25),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        //Prepositions
+                        Container(
+                          width: MediaQuery.of(context).size.width * .44,
+                          height: MediaQuery.of(context).size.height * .15,
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  ScaleRoute(
+                                    page: PrepositionPage(
+                                      voiceText: _voiceText,
+                                      setTextValue: _handleVoiceTextChanged,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Prepositions",
+                                style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                              )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: const Color.fromARGB(255, 0, 128, 38),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                        ),
+                        //Padding
+                        const SizedBox(height: 25),
+                        //Interjections
+                        Container(
+                          width: MediaQuery.of(context).size.width * .44,
+                          height: MediaQuery.of(context).size.height * .15,
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  ScaleRoute(
+                                    page: InterjectionPage(
+                                      voiceText: _voiceText,
+                                      setTextValue: _handleVoiceTextChanged,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Interjections",
+                                style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                              )),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 255, 197, 8),
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                //padding
+                const SizedBox(height: 25),
+                //Conjunctions
+                Container(
+                  width: MediaQuery.of(context).size.width * .9,
+                  height: MediaQuery.of(context).size.height * .15,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        ScaleRoute(
+                          page: ConjunctionPage(
+                            voiceText: _voiceText,
+                            setTextValue: _handleVoiceTextChanged,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Conjunctions",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(199, 255, 43, 220),
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                ),
+                //padding
+                const SizedBox(height: 25),
               ],
             )
           ],

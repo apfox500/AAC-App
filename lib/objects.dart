@@ -117,7 +117,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
               ],
             ),
           ),
-          Container(height: _height * .045),
+          SizedBox(height: _height * .045),
           SizedBox(
             height: _height * .7,
             child: ListView.builder(
@@ -211,6 +211,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
 
 Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
+//had to call thi sclas 'Thing' because we can't very well call it Object
 class Thing extends Comparable {
   final String name;
   String? plural;

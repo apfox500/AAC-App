@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
 
@@ -35,6 +36,20 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Common Sentences"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Home",
+          onPressed: () => Navigator.of(context).push(
+            SlideRightRoute(
+              page: MyHomePage(
+                title: (FirebaseAuth.instance.currentUser == null)
+                    ? "Home Page"
+                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                voiceText: _currentVoiceText,
+              ),
+            ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

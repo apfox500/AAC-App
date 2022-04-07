@@ -1,8 +1,11 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:thoughtspeech/buttons.dart';
 import 'main.dart';
 import 'dictionary.dart';
+import 'transitions.dart';
+import 'objects.dart';
 
 String _currentVoiceText = "";
 
@@ -21,6 +24,44 @@ class _ActionsPageState extends State<ActionsPage> {
       _currentVoiceText = value;
       widget.setTextValue(value);
     });
+
+    if (value != "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          content: Row(
+            children: <Widget>[
+              TextButton(
+                child: SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * .9,
+                  child: Card(
+                    child: Center(
+                      child: Text(
+                        "Go to Objects?",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ObjectsPage(
+                        voiceText: _currentVoiceText,
+                        setTextValue: widget.setTextValue,
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -33,21 +74,25 @@ class _ActionsPageState extends State<ActionsPage> {
     //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
     input.freq++;
     List<String> forms = input.conjugate();
-    //TODO: make this dialog better bc thats what the judges said we should
     showDialog(
         context: context,
         builder: (context) {
           return SimpleDialog(children: [
+            Center(
+                child: Text("Conjugations of '${input.name}':",
+                    style: Theme.of(context).textTheme.headline4)),
             SizedBox(
-              height: MediaQuery.of(context).size.height * .6,
+              height: forms.length * 50,
               width: MediaQuery.of(context).size.width * .6,
               child: ListView.builder(
-                  shrinkWrap: true,
                   itemCount: forms.length,
                   itemBuilder: ((context, index) {
-                    return TextButton(
-                        child: Text(forms[index]),
-                        onPressed: () {
+                    return ListTile(
+                        title: Text(
+                          forms[index],
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        onTap: () {
                           _handleTextUpdate(_currentVoiceText + " " + forms[index]);
                           Navigator.pop(context, true);
                         });
@@ -62,7 +107,23 @@ class _ActionsPageState extends State<ActionsPage> {
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Actions")),
+      appBar: AppBar(
+        title: const Text("Actions"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Home",
+          onPressed: () => Navigator.of(context).push(
+            SlideRightRoute(
+              page: MyHomePage(
+                title: (FirebaseAuth.instance.currentUser == null)
+                    ? "Home Page"
+                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                voiceText: _currentVoiceText,
+              ),
+            ),
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           globalVars.tts.speak(_currentVoiceText);

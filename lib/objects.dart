@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:thoughtspeech/transitions.dart';
 import 'main.dart';
 import 'buttons.dart';
-import 'dictionary.dart';
+import 'transitions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // This needs to be divisible by 7 or it goes poorly
 //list of objects
@@ -36,10 +38,11 @@ List<Thing> objects = [
 ];
 
 class ObjectsPage extends StatefulWidget {
-  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue})
+  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue, this.leading})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
+  final Widget? leading;
   @override
   _ObjectsPageState createState() => _ObjectsPageState();
 }
@@ -78,7 +81,9 @@ class _ObjectsPageState extends State<ObjectsPage> {
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Objects")),
+      appBar: AppBar(
+          title: const Text("Objects"),
+          leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           globalVars.tts.speak(_currentVoiceText);

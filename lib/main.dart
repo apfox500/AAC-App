@@ -17,9 +17,14 @@ import 'adverbs.dart' show AdverbPage;
 import 'prepositions.dart' show PrepositionPage;
 import 'interjections.dart' show InterjectionPage;
 import 'conjuctions.dart' show ConjunctionPage;
+import 'textbox.dart';
 
+//TODO: add an undo button that undoes the last thing added
+//TODO: make the outline of the box be blue only when there is text in it, have it be grey or something otherwise
+//TODO:  change every back button to a home button
+//TODO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
 //TODO: popup(snackbar) with suggested next page after choosing a button(i.e. after selecting an adjective, suggest objects, or after selecting adverb, suggest actions)
-//TODO: go and comment everything, make the whole file comments
+//TODO: go and comment everything, make the whole file comments basically
 //TODO: you lose the text in the speak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
 //TODO: have the frequency of clicks also be date based, so it only does like the most used in the last month(What the guy said in our interview)
@@ -46,7 +51,9 @@ class MyApp extends StatelessWidget {
       title: 'ThoughtSpeech',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Home Page'),
+      home: const MyHomePage(
+        title: 'Home Page',
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -55,8 +62,12 @@ class MyApp extends StatelessWidget {
 ///Home page of the app that has buttons to navigate to different parts of speech and various other screens
 ///Is a stateful widget because the text in the box at the top changes when the user chhoses words to add or clears etc.
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
+  const MyHomePage({
+    Key? key,
+    required this.title,
+    this.voiceText,
+  }) : super(key: key);
+  final String? voiceText;
   final String title;
 
   @override
@@ -73,9 +84,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.voiceText != null) {
+      _voiceText = widget.voiceText!;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    //This line is screwing up deleting the text on the home page with the external text box
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -131,35 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 25,
                 ),
                 //Read aloud textbox
-                Stack(
-                  children: [
-                    //Text box that has the text to read aloud
-                    Container(
-                      width: width * .9,
-                      height: height * .15,
-                      child: Center(child: Text(_voiceText)),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.blue,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    //Button to clear the text box, only appears when there is text in the box
-                    Visibility(
-                      visible: _voiceText != "",
-                      child: Positioned(
-                        right: 0,
-                        child: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _handleVoiceTextChanged("");
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                TextBox(
+                    width: width,
+                    height: height,
+                    voiceText: _voiceText,
+                    handleVoiceTextChanged: _handleVoiceTextChanged),
                 //padding
                 const SizedBox(height: 25),
                 //Objects

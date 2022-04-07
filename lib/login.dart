@@ -30,7 +30,9 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const MyHomePage(title: "Home Page"),
+              builder: (context) => const MyHomePage(
+                title: "Home Page",
+              ),
             ),
           ),
         ),

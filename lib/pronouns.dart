@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'main.dart';
+import 'transitions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //TODO:  remake pronouns page to include all of them
 //TODO: fix color changing on pronouns page
@@ -37,6 +39,20 @@ class _PronounsPageState extends State<PronounsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Pronouns"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Home",
+          onPressed: () => Navigator.of(context).push(
+            SlideRightRoute(
+              page: MyHomePage(
+                title: (FirebaseAuth.instance.currentUser == null)
+                    ? "Home Page"
+                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                voiceText: _currentVoiceText,
+              ),
+            ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

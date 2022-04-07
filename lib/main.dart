@@ -20,10 +20,7 @@ import 'conjuctions.dart' show ConjunctionPage;
 import 'textbox.dart';
 
 //TODO: add an undo button that undoes the last thing added
-//TODO: make the outline of the box be blue only when there is text in it, have it be grey or something otherwise
-//TODO:  change every back button to a home button
 //TODO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
-//TODO: popup(snackbar) with suggested next page after choosing a button(i.e. after selecting an adjective, suggest objects, or after selecting adverb, suggest actions)
 //TODO: go and comment everything, make the whole file comments basically
 //TODO: you lose the text in the speak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)

@@ -29,7 +29,7 @@ class _TextBoxState extends State<TextBox> {
           child: Center(child: Text(widget.voiceText)),
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.blue,
+              color: (widget.voiceText == "") ? Colors.grey : Colors.blue,
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),

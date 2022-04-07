@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'textbox.dart';
+import 'actions.dart';
 
 //TODO: make the Adverbs page
 class AdverbPage extends StatefulWidget {
@@ -20,6 +22,43 @@ class _AdverbPageState extends State<AdverbPage> {
       _currentVoiceText = value;
       widget.setTextValue(value);
     });
+    if (value != "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          content: Row(
+            children: <Widget>[
+              TextButton(
+                child: SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * .9,
+                  child: Card(
+                    child: Center(
+                      child: Text(
+                        "Go to Actions?",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ActionsPage(
+                        voiceText: _currentVoiceText,
+                        setTextValue: widget.setTextValue,
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -60,35 +99,11 @@ class _AdverbPageState extends State<AdverbPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Stack(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: MediaQuery.of(context).size.height * .15,
-                    child: Center(child: Text(_currentVoiceText)),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.blue,
-                      ),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  Visibility(
-                    visible: _currentVoiceText != "",
-                    child: Positioned(
-                      right: 0,
-                      child: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _handleTextUpdate("");
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            TextBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                voiceText: _currentVoiceText,
+                handleVoiceTextChanged: _handleTextUpdate),
           ],
         ),
       ),

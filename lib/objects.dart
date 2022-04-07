@@ -1,10 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:thoughtspeech/transitions.dart';
 import 'main.dart';
 import 'buttons.dart';
-import 'transitions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'textbox.dart';
 
 // This needs to be divisible by 7 or it goes poorly
 //list of objects
@@ -93,40 +91,16 @@ class _ObjectsPageState extends State<ObjectsPage> {
         child: const Icon(Icons.record_voice_over),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Center(
-            child: Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
-                  child: Center(child: Text(_currentVoiceText)),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                Visibility(
-                  visible: _currentVoiceText != "",
-                  child: Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _handleTextUpdate("");
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          TextBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              voiceText: _currentVoiceText,
+              handleVoiceTextChanged: _handleTextUpdate),
           SizedBox(height: _height * .045),
           SizedBox(
-            height: _height * .7,
+            height: _height * .68,
             child: ListView.builder(
               itemCount: objects.length ~/ 7,
               itemBuilder: ((context, int index) {

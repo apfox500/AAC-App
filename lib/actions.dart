@@ -6,6 +6,7 @@ import 'main.dart';
 import 'dictionary.dart';
 import 'transitions.dart';
 import 'objects.dart';
+import 'textbox.dart';
 
 String _currentVoiceText = "";
 
@@ -133,41 +134,17 @@ class _ActionsPageState extends State<ActionsPage> {
         child: const Icon(Icons.record_voice_over),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           //text box with words to speak
-          Center(
-            child: Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
-                  child: Center(child: Text(_currentVoiceText)),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                Visibility(
-                  visible: _currentVoiceText != "",
-                  child: Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _handleTextUpdate("");
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          TextBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              voiceText: _currentVoiceText,
+              handleVoiceTextChanged: _handleTextUpdate),
           SizedBox(height: _height * .045),
           SizedBox(
-            height: _height * .7,
+            height: _height * .68,
             child: ListView.builder(
               itemCount: actions.length ~/ 7,
               itemBuilder: ((context, int index) {

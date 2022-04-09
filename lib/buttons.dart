@@ -1,6 +1,9 @@
 import 'objects.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'actions.dart';
+import 'transitions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'main.dart';
 
 class ThingListButton extends StatelessWidget {
   const ThingListButton({
@@ -108,6 +111,28 @@ class ActionListButton extends StatelessWidget {
                 label.toString(),
                 style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
               ),
+      ),
+    );
+  }
+}
+
+class HomeButton extends StatelessWidget {
+  const HomeButton({Key? key, required this.currentVoiceText}) : super(key: key);
+  final String currentVoiceText;
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.home),
+      tooltip: "Home",
+      onPressed: () => Navigator.of(context).push(
+        SlideRightRoute(
+          page: MyHomePage(
+            title: (FirebaseAuth.instance.currentUser == null)
+                ? "Home Page"
+                : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+            voiceText: currentVoiceText,
+          ),
+        ),
       ),
     );
   }

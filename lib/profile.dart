@@ -104,7 +104,9 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () => Navigator.push(
             context,
             SlideRightRoute(
-              page: MyHomePage(title: ((widget.user.displayName ?? "New User") + "'s Home Page")),
+              page: MyHomePage(
+                title: ((widget.user.displayName ?? "New User") + "'s Home Page"),
+              ),
             ),
           ),
         ),

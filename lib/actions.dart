@@ -1,8 +1,12 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:thoughtspeech/buttons.dart';
 import 'main.dart';
 import 'dictionary.dart';
+import 'transitions.dart';
+import 'objects.dart';
+import 'textbox.dart';
 
 String _currentVoiceText = "";
 
@@ -21,6 +25,44 @@ class _ActionsPageState extends State<ActionsPage> {
       _currentVoiceText = value;
       widget.setTextValue(value);
     });
+
+    if (value != "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          content: Row(
+            children: <Widget>[
+              TextButton(
+                child: SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * .9,
+                  child: Card(
+                    child: Center(
+                      child: Text(
+                        "Go to Objects?",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ObjectsPage(
+                        voiceText: _currentVoiceText,
+                        setTextValue: widget.setTextValue,
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -33,21 +75,25 @@ class _ActionsPageState extends State<ActionsPage> {
     //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
     input.freq++;
     List<String> forms = input.conjugate();
-    //TODO: make this dialog better bc thats what the judges said we should
     showDialog(
         context: context,
         builder: (context) {
           return SimpleDialog(children: [
+            Center(
+                child: Text("Conjugations of '${input.name}':",
+                    style: Theme.of(context).textTheme.headline4)),
             SizedBox(
-              height: MediaQuery.of(context).size.height * .6,
+              height: forms.length * 50,
               width: MediaQuery.of(context).size.width * .6,
               child: ListView.builder(
-                  shrinkWrap: true,
                   itemCount: forms.length,
                   itemBuilder: ((context, index) {
-                    return TextButton(
-                        child: Text(forms[index]),
-                        onPressed: () {
+                    return ListTile(
+                        title: Text(
+                          forms[index],
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        onTap: () {
                           _handleTextUpdate(_currentVoiceText + " " + forms[index]);
                           Navigator.pop(context, true);
                         });
@@ -62,7 +108,23 @@ class _ActionsPageState extends State<ActionsPage> {
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Actions")),
+      appBar: AppBar(
+        title: const Text("Actions"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Home",
+          onPressed: () => Navigator.of(context).push(
+            SlideRightRoute(
+              page: MyHomePage(
+                title: (FirebaseAuth.instance.currentUser == null)
+                    ? "Home Page"
+                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                voiceText: _currentVoiceText,
+              ),
+            ),
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           globalVars.tts.speak(_currentVoiceText);
@@ -72,41 +134,17 @@ class _ActionsPageState extends State<ActionsPage> {
         child: const Icon(Icons.record_voice_over),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           //text box with words to speak
-          Center(
-            child: Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
-                  child: Center(child: Text(_currentVoiceText)),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                Visibility(
-                  visible: _currentVoiceText != "",
-                  child: Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _handleTextUpdate("");
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          TextBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              voiceText: _currentVoiceText,
+              handleVoiceTextChanged: _handleTextUpdate),
           SizedBox(height: _height * .045),
           SizedBox(
-            height: _height * .7,
+            height: _height * .68,
             child: ListView.builder(
               itemCount: actions.length ~/ 7,
               itemBuilder: ((context, int index) {
@@ -197,9 +235,7 @@ class _ActionsPageState extends State<ActionsPage> {
   }
 }
 
-Color randomColor() {
-  return Colors.primaries[Random().nextInt(Colors.primaries.length)];
-}
+Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
 class Action extends Comparable {
   final String name;

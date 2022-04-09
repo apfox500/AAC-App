@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
+import 'textbox.dart';
 
 //TODO: add in more senteces(scrollable list of them, like the rest of the other pages, we need more)
 //TODO: Let user make their own common sentences(profile page or maybe just a plus button at the bottom left)
@@ -35,6 +37,20 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Common Sentences"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Home",
+          onPressed: () => Navigator.of(context).push(
+            SlideRightRoute(
+              page: MyHomePage(
+                title: (FirebaseAuth.instance.currentUser == null)
+                    ? "Home Page"
+                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                voiceText: _currentVoiceText,
+              ),
+            ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -49,34 +65,11 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             //Read aloud text
-            Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
-                  child: Center(child: Text(_currentVoiceText)),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                Visibility(
-                  visible: _currentVoiceText != "",
-                  child: Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _handleTextUpdate("");
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            //padding
+            TextBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                voiceText: _currentVoiceText,
+                handleVoiceTextChanged: _handleTextUpdate), //padding
             const SizedBox(
               height: 25,
             ),

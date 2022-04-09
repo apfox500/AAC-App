@@ -126,3 +126,4 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 
+ios/Flutter/Generated 2.xcconfig

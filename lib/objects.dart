@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'buttons.dart';
-import 'dictionary.dart';
+import 'textbox.dart';
 
 // This needs to be divisible by 7 or it goes poorly
 //list of objects
@@ -36,10 +36,11 @@ List<Thing> objects = [
 ];
 
 class ObjectsPage extends StatefulWidget {
-  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue})
+  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue, this.leading})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
+  final Widget? leading;
   @override
   _ObjectsPageState createState() => _ObjectsPageState();
 }
@@ -78,7 +79,9 @@ class _ObjectsPageState extends State<ObjectsPage> {
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Objects")),
+      appBar: AppBar(
+          title: const Text("Objects"),
+          leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           globalVars.tts.speak(_currentVoiceText);
@@ -88,40 +91,16 @@ class _ObjectsPageState extends State<ObjectsPage> {
         child: const Icon(Icons.record_voice_over),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Center(
-            child: Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  height: MediaQuery.of(context).size.height * .15,
-                  child: Center(child: Text(_currentVoiceText)),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                Visibility(
-                  visible: _currentVoiceText != "",
-                  child: Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _handleTextUpdate("");
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          TextBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              voiceText: _currentVoiceText,
+              handleVoiceTextChanged: _handleTextUpdate),
           SizedBox(height: _height * .045),
           SizedBox(
-            height: _height * .7,
+            height: _height * .68,
             child: ListView.builder(
               itemCount: objects.length ~/ 7,
               itemBuilder: ((context, int index) {

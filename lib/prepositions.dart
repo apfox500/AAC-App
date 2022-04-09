@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'transitions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'textbox.dart';
 
 //TODO: make the Prepositions page
+//have it sort by the type(ie location, type, etc,) yknow, then a popup wher you select the individual one
 class PrepositionPage extends StatefulWidget {
   const PrepositionPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
@@ -32,6 +36,20 @@ class _PrepositionPageState extends State<PrepositionPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Prepositions"),
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Home",
+          onPressed: () => Navigator.of(context).push(
+            SlideRightRoute(
+              page: MyHomePage(
+                title: (FirebaseAuth.instance.currentUser == null)
+                    ? "Home Page"
+                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                voiceText: _currentVoiceText,
+              ),
+            ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -45,35 +63,11 @@ class _PrepositionPageState extends State<PrepositionPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Stack(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: MediaQuery.of(context).size.height * .15,
-                    child: Center(child: Text(_currentVoiceText)),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.blue,
-                      ),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  Visibility(
-                    visible: _currentVoiceText != "",
-                    child: Positioned(
-                      right: 0,
-                      child: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _handleTextUpdate("");
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            TextBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                voiceText: _currentVoiceText,
+                handleVoiceTextChanged: _handleTextUpdate),
           ],
         ),
       ),

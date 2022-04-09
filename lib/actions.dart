@@ -235,9 +235,7 @@ class _ActionsPageState extends State<ActionsPage> {
   }
 }
 
-Color randomColor() {
-  return Colors.primaries[Random().nextInt(Colors.primaries.length)];
-}
+Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
 class Action extends Comparable {
   final String name;

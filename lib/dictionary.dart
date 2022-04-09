@@ -1,5 +1,6 @@
 import 'actions.dart';
 import 'package:flutter/material.dart' hide Action;
+import 'conjuctions.dart' show Conjunction;
 
 // This needs to be divisible by 7 or it goes poorly
 Map<String, List<String>> verbsToConjugations = {
@@ -141,4 +142,76 @@ List<Action> actions = [
   Action(name: "Stack", color: randomColor()),
   Action(name: "Buy", color: randomColor()),
   Action(name: "Shake", icon: const Icon(Icons.handshake, color: Colors.white), color: randomColor()),
+];
+
+//list of conjunctions
+List<Conjunction> coordinating = [
+  Conjunction("for", color: randomColor()),
+  Conjunction("and", color: randomColor()),
+  Conjunction("nor", color: randomColor()),
+  Conjunction("but", color: randomColor()),
+  Conjunction("or", color: randomColor()),
+  Conjunction("yet", color: randomColor()),
+  Conjunction("so", color: randomColor())
+];
+List<Conjunction> correlative = [
+  Conjunction("both", partner: "and", color: randomColor()),
+  Conjunction("wheter", partner: "or", color: randomColor()),
+  Conjunction("not only", partner: "but also", color: randomColor()),
+  Conjunction("either", partner: "or", color: randomColor()),
+  Conjunction("neither", partner: "nor", color: randomColor()),
+  Conjunction("just", partner: "so", color: randomColor()),
+  Conjunction("the", partner: "the", color: randomColor()),
+  Conjunction("as", partner: "as", color: randomColor()),
+  Conjunction("if", partner: "then", color: randomColor()),
+  Conjunction("rather", partner: "than", color: randomColor()),
+  Conjunction("no sooner", partner: "than", color: randomColor()),
+  Conjunction("such", partner: "that", color: randomColor()),
+  Conjunction("so", partner: "that", color: randomColor())
+];
+List<Conjunction> subordinating = [
+  Conjunction("after", color: randomColor()),
+  Conjunction("although", color: randomColor()),
+  Conjunction("as", color: randomColor()),
+  Conjunction("as if", color: randomColor()),
+  Conjunction("as long as", color: randomColor()),
+  Conjunction("as much as", color: randomColor()),
+  Conjunction("as soon as", color: randomColor()),
+  Conjunction("as far as", color: randomColor()),
+  Conjunction("as though", color: randomColor()),
+  Conjunction("by the time", color: randomColor()),
+  Conjunction("in as much as", color: randomColor()),
+  Conjunction("inasmuch", color: randomColor()),
+  Conjunction("in order to", color: randomColor()),
+  Conjunction("in order that", color: randomColor()),
+  Conjunction("in case", color: randomColor()),
+  Conjunction("lest", color: randomColor()),
+  Conjunction("though", color: randomColor()),
+  Conjunction("now that", color: randomColor()),
+  Conjunction("now since", color: randomColor()),
+  Conjunction("now when", color: randomColor()),
+  Conjunction("now", color: randomColor()),
+  Conjunction("even if", color: randomColor()),
+  Conjunction("even", color: randomColor()),
+  Conjunction("even though", color: randomColor()),
+  Conjunction("provided", color: randomColor()),
+  Conjunction("provide that", color: randomColor()),
+  Conjunction("if", color: randomColor()),
+  Conjunction("if then", color: randomColor()),
+  Conjunction("if when", color: randomColor()),
+  Conjunction("if only", color: randomColor()),
+  Conjunction("just as", color: randomColor()),
+  Conjunction("where", color: randomColor()),
+  Conjunction("weherever", color: randomColor()),
+  Conjunction("whereas", color: randomColor()),
+  Conjunction("where if", color: randomColor()),
+  Conjunction("whether", color: randomColor()),
+  Conjunction("since", color: randomColor()),
+  Conjunction("because", color: randomColor()),
+  Conjunction("whose", color: randomColor()),
+  Conjunction("whoever", color: randomColor()),
+  Conjunction("unless", color: randomColor()),
+  Conjunction("while", color: randomColor()),
+  Conjunction("before", color: randomColor()),
+  Conjunction("why", color: randomColor()),
 ];

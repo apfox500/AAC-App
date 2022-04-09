@@ -80,67 +80,70 @@ class _PronounsPageState extends State<PronounsPage> {
         builder: (context) {
           return Dialog(
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * .6,
+              height: 340,
               width: MediaQuery.of(context).size.width * .6,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Singular",
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          height: singular.length * 60,
-                          width: MediaQuery.of(context).size.width * .27,
-                          child: ListView.builder(
-                            itemCount: singular.length,
-                            itemBuilder: ((context, index) {
-                              return ListTile(
-                                  title: Text(
-                                    singular[index],
-                                    style: Theme.of(context).textTheme.labelLarge,
-                                  ),
-                                  onTap: () {
-                                    _handleTextUpdate(_currentVoiceText + " " + singular[index]);
-                                    Navigator.pop(context, true);
-                                  });
-                            }),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Singular",
+                            style: Theme.of(context).textTheme.headline6,
                           ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Plural",
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          height: plural.length * 60,
-                          width: MediaQuery.of(context).size.width * .27,
-                          child: ListView.builder(
-                            itemCount: plural.length,
-                            itemBuilder: ((context, index) {
-                              return ListTile(
-                                  title: Text(
-                                    plural[index],
-                                    style: Theme.of(context).textTheme.labelLarge,
-                                  ),
-                                  onTap: () {
-                                    _handleTextUpdate(_currentVoiceText + " " + plural[index]);
-                                    Navigator.pop(context, true);
-                                  });
-                            }),
+                          SizedBox(
+                            height: singular.length * 60,
+                            width: MediaQuery.of(context).size.width * .27,
+                            child: ListView.builder(
+                              itemCount: singular.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      singular[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + singular[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Plural",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height: plural.length * 60,
+                            width: MediaQuery.of(context).size.width * .27,
+                            child: ListView.builder(
+                              itemCount: plural.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      plural[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + plural[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -162,7 +165,7 @@ class _PronounsPageState extends State<PronounsPage> {
           "y'all's selves",
           "yeers",
           "y'all's yeer",
-          "y'all's"
+          "y'all's",
         ];
     int singularLength = ((showAllSecond) ? singularAll : singular).length;
     int pluralLength = (showAllSecond ? pluralAll : plural).length;
@@ -428,22 +431,295 @@ class _PronounsPageState extends State<PronounsPage> {
   }
 
   void generic() {
-    //TODO implement generic
     List<String> formal = ["one", "oneself", "one's"];
     List<String> informal = ["you", "yourself", "your"];
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * .6,
+              height: 220,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //formal
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Formal",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height:
+                                ((formal.length * 60) > (MediaQuery.of(context).size.height * .53))
+                                    ? (MediaQuery.of(context).size.height * .53)
+                                    : (formal.length * 60),
+                            width: MediaQuery.of(context).size.width * .27,
+                            child: ListView.builder(
+                              itemCount: formal.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      formal[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + formal[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      //informal
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Informal",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height:
+                                ((informal.length * 60) > (MediaQuery.of(context).size.height * .53))
+                                    ? (MediaQuery.of(context).size.height * .53)
+                                    : (informal.length * 60),
+                            width: MediaQuery.of(context).size.width * .27,
+                            child: ListView.builder(
+                              itemCount: informal.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      informal[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + informal[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   void wh() {
-    //TODO implement wh-
     List<String> personal = ["who", "whom", "whose"];
     List<String> nonPersonal = ["what"];
     List<String> relative = ["which"];
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * .7,
+              height: 220,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //personal
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Personal",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height:
+                                ((personal.length * 60) > (MediaQuery.of(context).size.height * .53))
+                                    ? (MediaQuery.of(context).size.height * .53)
+                                    : (personal.length * 60),
+                            width: MediaQuery.of(context).size.width * .22,
+                            child: ListView.builder(
+                              itemCount: personal.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      personal[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + personal[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      //nonPersonal
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Non-Personal",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height: ((nonPersonal.length * 60) >
+                                    (MediaQuery.of(context).size.height * .53))
+                                ? (MediaQuery.of(context).size.height * .53)
+                                : (nonPersonal.length * 60),
+                            width: MediaQuery.of(context).size.width * .22,
+                            child: ListView.builder(
+                              itemCount: nonPersonal.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      nonPersonal[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + nonPersonal[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      //relative
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Relative",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height:
+                                ((relative.length * 60) > (MediaQuery.of(context).size.height * .53))
+                                    ? (MediaQuery.of(context).size.height * .53)
+                                    : (relative.length * 60),
+                            width: MediaQuery.of(context).size.width * .22,
+                            child: ListView.builder(
+                              itemCount: relative.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      relative[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + relative[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   void reciprocalDummy() {
-    //TODO implement reciprocal/dummy
     List<String> reciprocal = ["each other", "one another"];
     List<String> dummy = ["there", "it"];
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * .6,
+              height: 160,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //reciprocal
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Reciprocal",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height: ((reciprocal.length * 60) >
+                                    (MediaQuery.of(context).size.height * .53))
+                                ? (MediaQuery.of(context).size.height * .53)
+                                : (reciprocal.length * 60),
+                            width: MediaQuery.of(context).size.width * .27,
+                            child: ListView.builder(
+                              itemCount: reciprocal.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      reciprocal[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + reciprocal[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      //dummy
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Dummy",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(
+                            height: ((dummy.length * 60) > (MediaQuery.of(context).size.height * .53))
+                                ? (MediaQuery.of(context).size.height * .53)
+                                : (dummy.length * 60),
+                            width: MediaQuery.of(context).size.width * .27,
+                            child: ListView.builder(
+                              itemCount: dummy.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                    title: Text(
+                                      dummy[index],
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                    onTap: () {
+                                      _handleTextUpdate(_currentVoiceText + " " + dummy[index]);
+                                      Navigator.pop(context, true);
+                                    });
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   @override

@@ -126,7 +126,7 @@ class _ConjunctionPageState extends State<ConjunctionPage> {
         child: SizedBox(
           width: width * .98,
           child: ListView(children: <Widget>[
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Center(
               child: TextBox(
                   width: MediaQuery.of(context).size.width,

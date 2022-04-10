@@ -1,6 +1,7 @@
 import 'actions.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'conjuctions.dart' show Conjunction;
+import 'adverbs.dart' show Adverb;
 
 // This needs to be divisible by 7 or it goes poorly
 Map<String, List<String>> verbsToConjugations = {
@@ -214,4 +215,57 @@ List<Conjunction> subordinating = [
   Conjunction("while", color: randomColor()),
   Conjunction("before", color: randomColor()),
   Conjunction("why", color: randomColor()),
+];
+
+List<Adverb> time = [
+  Adverb("Sometimes", randomColor()),
+  Adverb("Recently", randomColor()),
+  Adverb("During", randomColor()),
+  Adverb("Always", randomColor()),
+  Adverb("Soon", randomColor()),
+  Adverb("Yet", randomColor()),
+  Adverb("Usually", randomColor()),
+  Adverb("Never", randomColor()),
+];
+
+List<Adverb> place = [
+  Adverb("Everywhere", randomColor()),
+  Adverb("Into", randomColor()),
+  Adverb("Nowhere", randomColor()),
+  Adverb("Here", randomColor()),
+  Adverb("There", randomColor()),
+  Adverb("Above", randomColor()),
+  Adverb("Below", randomColor()),
+  Adverb("Inside", randomColor()),
+];
+List<Adverb> manner = [
+  Adverb("Dangerously", randomColor()),
+  Adverb("Softly", randomColor()),
+  Adverb("Quickly", randomColor()),
+  Adverb("Gently", randomColor()),
+  Adverb("Neatly", randomColor()),
+  Adverb("Calm", randomColor()),
+];
+List<Adverb> degree = [
+  Adverb("Entirely", randomColor()),
+  Adverb("Slightly", randomColor()),
+  Adverb("Highly", randomColor()),
+  Adverb("Totally", randomColor()),
+  Adverb("Almost", randomColor()),
+  Adverb("Just", randomColor()),
+];
+List<Adverb> frequency = [
+  Adverb("Constantly", randomColor()),
+  Adverb("Always", randomColor()),
+  Adverb("Occasionally", randomColor()),
+  Adverb("Regularly", randomColor()),
+  Adverb("Periodically", randomColor()),
+];
+List<Adverb> conjunctive = [
+  Adverb("Next", randomColor()),
+  Adverb("Now", randomColor()),
+  Adverb("Undoubtedly", randomColor()),
+  Adverb("Rather", randomColor()),
+  Adverb("Additionally", randomColor()),
+  Adverb("Anyway", randomColor()),
 ];

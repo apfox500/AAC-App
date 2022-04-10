@@ -4,8 +4,8 @@ import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
 import 'actions.dart';
+import 'dictionary.dart';
 
-//TODO: make the Adverbs page
 class AdverbPage extends StatefulWidget {
   const AdverbPage({Key? key, required this.voiceText, required this.setTextValue}) : super(key: key);
   final String voiceText;
@@ -69,6 +69,8 @@ class _AdverbPageState extends State<AdverbPage> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Adverbs"),
@@ -95,18 +97,351 @@ class _AdverbPageState extends State<AdverbPage> {
         backgroundColor: Colors.grey,
         child: const Icon(Icons.record_voice_over),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                voiceText: _currentVoiceText,
-                handleVoiceTextChanged: _handleTextUpdate),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: SizedBox(
+          height: height * .95,
+          child: ListView(
+            children: <Widget>[
+              Center(
+                child: TextBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    voiceText: _currentVoiceText,
+                    handleVoiceTextChanged: _handleTextUpdate),
+              ),
+              SizedBox(height: height * .03),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SizedBox(
+                      width: width * .43,
+                      height: height * .42 + 20,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Text(
+                              "Time",
+                              style: TextStyle(
+                                  color: Color.fromARGB(
+                                    255,
+                                    195,
+                                    195,
+                                    195,
+                                  ),
+                                  fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * .425,
+                            height: height * .4,
+                            child: ListView.builder(
+                                itemCount: time.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      width: width * .422,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: time[index].color,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () => _handleTextUpdate(
+                                            _currentVoiceText + " " + time[index].name),
+                                        child: Text(
+                                          time[index].name,
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: width * .03),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SizedBox(
+                      width: width * .43,
+                      height: height * .42 + 20,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Text(
+                              "Place",
+                              style:
+                                  TextStyle(color: Color.fromARGB(255, 195, 195, 195), fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * .425,
+                            height: height * .4,
+                            child: ListView.builder(
+                                itemCount: place.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      width: width * .422,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: place[index].color,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () => _handleTextUpdate(
+                                            _currentVoiceText + " " + place[index].name),
+                                        child: Text(
+                                          place[index].name,
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: height * .03),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SizedBox(
+                      width: width * .43,
+                      height: height * .42 + 20,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Text(
+                              "Manner",
+                              style:
+                                  TextStyle(color: Color.fromARGB(255, 195, 195, 195), fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * .425,
+                            height: height * .4,
+                            child: ListView.builder(
+                                itemCount: manner.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      width: width * .422,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: manner[index].color,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () => _handleTextUpdate(
+                                            _currentVoiceText + " " + manner[index].name),
+                                        child: Text(
+                                          manner[index].name,
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: width * .03),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SizedBox(
+                      width: width * .43,
+                      height: height * .42 + 20,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Text(
+                              "Degree",
+                              style:
+                                  TextStyle(color: Color.fromARGB(255, 195, 195, 195), fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * .425,
+                            height: height * .4,
+                            child: ListView.builder(
+                                itemCount: degree.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      width: width * .422,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: degree[index].color,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () => _handleTextUpdate(
+                                            _currentVoiceText + " " + degree[index].name),
+                                        child: Text(
+                                          degree[index].name,
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: height * .03),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SizedBox(
+                      width: width * .43,
+                      height: height * .42 + 20,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Text(
+                              "Frequency",
+                              style:
+                                  TextStyle(color: Color.fromARGB(255, 195, 195, 195), fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * .425,
+                            height: height * .4,
+                            child: ListView.builder(
+                                itemCount: frequency.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      width: width * .422,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: frequency[index].color,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () => _handleTextUpdate(
+                                            _currentVoiceText + " " + frequency[index].name),
+                                        child: Text(
+                                          frequency[index].name,
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: width * .03),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: SizedBox(
+                      width: width * .43,
+                      height: height * .42 + 20,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Text(
+                              "Conjunctive",
+                              style:
+                                  TextStyle(color: Color.fromARGB(255, 195, 195, 195), fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * .425,
+                            height: height * .4,
+                            child: ListView.builder(
+                                itemCount: conjunctive.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      width: width * .422,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: conjunctive[index].color,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () => _handleTextUpdate(
+                                            _currentVoiceText + " " + conjunctive[index].name),
+                                        child: Text(
+                                          conjunctive[index].name,
+                                          style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onBackground),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: height * .03),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+class Adverb {
+  String name;
+  Color color;
+  Adverb(this.name, this.color);
 }

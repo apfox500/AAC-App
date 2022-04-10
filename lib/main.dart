@@ -22,7 +22,6 @@ import 'textbox.dart';
 //TODO: add an undo button that undoes the last thing added
 //TODO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
 //TODO: go and comment everything, make the whole file comments basically
-//TODO: you lose the text in the speak text box thingy  when you go into/out of profile and login pages
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
 //TODO: have the frequency of clicks also be date based, so it only does like the most used in the last month(What the guy said in our interview)
 late GlobalVars globalVars;

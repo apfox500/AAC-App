@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart'; //allows us to store data
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }

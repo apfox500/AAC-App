@@ -35,6 +35,7 @@ List<Thing> objects = [
   Thing(name: "Water", icon: const Icon(Icons.water, color: Colors.white), color: randomColor()),
 ];
 
+//TODO swipe on the button to add "the" before the object
 class ObjectsPage extends StatefulWidget {
   const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue, this.leading})
       : super(key: key);

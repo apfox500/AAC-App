@@ -2,6 +2,7 @@ import 'actions.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'conjuctions.dart' show Conjunction;
 import 'adverbs.dart' show Adverb;
+import 'prepositions.dart' show Preposition;
 
 // This needs to be divisible by 7 or it goes poorly
 Map<String, List<String>> verbsToConjugations = {
@@ -227,7 +228,6 @@ List<Adverb> time = [
   Adverb("Usually", randomColor()),
   Adverb("Never", randomColor()),
 ];
-
 List<Adverb> place = [
   Adverb("Everywhere", randomColor()),
   Adverb("Into", randomColor()),
@@ -268,4 +268,52 @@ List<Adverb> conjunctive = [
   Adverb("Rather", randomColor()),
   Adverb("Additionally", randomColor()),
   Adverb("Anyway", randomColor()),
+];
+
+List<Preposition> simple = [
+  Preposition("In", randomColor()),
+  Preposition("Out", randomColor()),
+  Preposition("On", randomColor()),
+  Preposition("Up", randomColor()),
+  Preposition("At", randomColor()),
+  Preposition("For", randomColor()),
+  Preposition("From", randomColor()),
+  Preposition("By", randomColor()),
+  Preposition("Of", randomColor()),
+  Preposition("Off", randomColor()),
+  Preposition("Through", randomColor()),
+  Preposition("Till", randomColor()),
+];
+List<Preposition> doublePrep = [
+  Preposition("Onto", randomColor()),
+  Preposition("Into", randomColor()),
+  Preposition("Throughout", randomColor()),
+  Preposition("Up till", randomColor()),
+  Preposition("Up to", randomColor()),
+  Preposition("Within", randomColor()),
+  Preposition("Without", randomColor()),
+  Preposition("Upon", randomColor()),
+];
+List<Preposition> compound = [
+  Preposition("Above", randomColor()),
+  Preposition("About", randomColor()),
+  Preposition("Across", randomColor()),
+  Preposition("Along", randomColor()),
+  Preposition("Before", randomColor()),
+  Preposition("Behind", randomColor()),
+];
+List<Preposition> pharasal = [
+  Preposition("In addition to", randomColor()),
+  Preposition("By means of", randomColor()),
+  Preposition("In spite of", randomColor()),
+  Preposition("According to", randomColor()),
+  Preposition("Owing to", randomColor()),
+  Preposition("In favour of", randomColor()),
+];
+List<Preposition> participle = [
+  Preposition("Concerning", randomColor()),
+  Preposition("Considering", randomColor()),
+  Preposition("Barring", randomColor()),
+  Preposition("During", randomColor()),
+  Preposition("Touching", randomColor()),
 ];

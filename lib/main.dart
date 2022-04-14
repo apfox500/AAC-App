@@ -19,6 +19,8 @@ import 'interjections.dart' show InterjectionPage;
 import 'conjuctions.dart' show ConjunctionPage;
 import 'textbox.dart';
 
+//posisible title of thought speak
+//TODO: previous sentence(perhaps by clicking the box?)
 //TODO: add an undo button that undoes the last thing added
 //TODO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
 //TODO: go and comment everything, make the whole file comments basically

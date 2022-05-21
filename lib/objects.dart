@@ -4,6 +4,7 @@ import 'main.dart';
 import 'buttons.dart';
 import 'textbox.dart';
 
+//TODO: objects with pictures
 // This needs to be divisible by 7 or it goes poorly
 //list of objects
 List<Thing> objects = [

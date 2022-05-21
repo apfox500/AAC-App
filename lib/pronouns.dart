@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
 import 'actions.dart';
 
+//TODO: two step isnt nice
 class PronounsPage extends StatefulWidget {
   const PronounsPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);

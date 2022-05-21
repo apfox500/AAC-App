@@ -239,7 +239,6 @@ Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length
 
 class Action extends Comparable {
   final String name;
-
   Icon? icon;
   int freq = 0;
   Color color;

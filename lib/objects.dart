@@ -4,8 +4,7 @@ import 'main.dart';
 import 'buttons.dart';
 import 'textbox.dart';
 
-//TODO: objects with pictures
-// This needs to be divisible by 7 or it goes poorly
+//This needs to be divisible by 7 or it goes poorly
 //list of objects
 List<Thing> objects = [
   Thing(
@@ -63,7 +62,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 
   void objectButtonPressed(Thing input, {bool plural = false}) {
-    //Relly really hope that everything is passed by reference otherwise im screwed with frequencies
+    //Really really hope that everything is passed by reference otherwise im screwed with frequencies
     input.freq++;
     if (!plural) {
       _handleTextUpdate(_currentVoiceText + " " + input.name);

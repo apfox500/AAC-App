@@ -40,6 +40,7 @@ dependencies:
   flutter_tts: ^3.3.3
   text_to_speech: ^0.2.3
   cloud_firestore: ^3.1.10
+  expandable: ^5.0.1
 
 
 dev_dependencies:

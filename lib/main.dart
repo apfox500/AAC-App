@@ -523,4 +523,5 @@ Future<void> getUserData() async {
       globalVars.uid = FirebaseAuth.instance.currentUser!.uid;
     },
   );
+  globalVars.doc = FirebaseFirestore.instance.collection("Users").doc(globalVars.uid);
 }

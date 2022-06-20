@@ -19,7 +19,7 @@ class SpeakButton extends StatelessWidget {
         if (_currentVoiceText != "") {
           if (!globalVars.past!.contains(_currentVoiceText)) {
             globalVars.past!.add(_currentVoiceText);
-            FirebaseFirestore.instance.collection("Users").doc(globalVars.uid).update(
+            globalVars.doc!.update(
               {"past": globalVars.past},
             );
           }

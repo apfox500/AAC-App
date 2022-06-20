@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:text_to_speech/text_to_speech.dart';
 
 //this basically lets us use globals when we arent allowed to
@@ -9,12 +10,15 @@ class GlobalVars {
   double pitch; //range is 0-2, 1 is default
   List<String>? past = [];
   String? uid;
-  GlobalVars(
-      {required this.tts,
-      this.language = 'en-US',
-      this.rate = 1,
-      this.volume = 1,
-      this.pitch = 1,
-      this.past,
-      this.uid});
+  DocumentReference? doc;
+  GlobalVars({
+    required this.tts,
+    this.language = 'en-US',
+    this.rate = 1,
+    this.volume = 1,
+    this.pitch = 1,
+    this.past,
+    this.uid,
+    this.doc,
+  });
 }

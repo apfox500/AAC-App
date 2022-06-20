@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'buttons.dart';
+import 'speak_button.dart';
 import 'textbox.dart';
 
 //This needs to be divisible by 7 or it goes poorly
@@ -83,14 +84,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
       appBar: AppBar(
           title: const Text("Objects"),
           leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -198,10 +192,8 @@ class Thing extends Comparable {
   final String name;
   String? plural;
   Color color;
-
   Icon? icon;
   int freq = 0;
-
   Thing({required this.name, this.icon, this.plural, required this.color});
 
   @override

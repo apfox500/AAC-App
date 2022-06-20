@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'speak_button.dart';
 import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
@@ -88,14 +89,7 @@ class _AdjectivePageState extends State<AdjectivePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -109,5 +103,18 @@ class _AdjectivePageState extends State<AdjectivePage> {
         ),
       ),
     );
+  }
+}
+
+class Adjective extends Comparable {
+  Adjective({required this.name, required this.color});
+  int freq = 0;
+
+  Color color;
+  final String name;
+  @override
+  int compareTo(other) {
+    // TODO: implement compareTo
+    throw UnimplementedError();
   }
 }

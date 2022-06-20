@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thoughtspeech/main.dart';
 
 class TextBox extends StatefulWidget {
   const TextBox(
@@ -23,16 +24,22 @@ class _TextBoxState extends State<TextBox> {
     return Stack(
       children: [
         //Text box that has the text to read aloud
-        Container(
-          width: widget.width * .9,
-          height: widget.height * .15,
-          child: Center(child: Text(widget.voiceText)),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: (widget.voiceText == "") ? Colors.grey : Colors.blue,
+        GestureDetector(
+          child: Container(
+            width: widget.width * .9,
+            height: widget.height * .15,
+            child: Center(child: Text(widget.voiceText)),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: (widget.voiceText == "") ? Colors.grey : Colors.blue,
+              ),
+              borderRadius: BorderRadius.circular(10.0),
             ),
-            borderRadius: BorderRadius.circular(10.0),
           ),
+          /* onTap: () {
+            //do stuff to display past sentences
+            print(globalVars.past);
+          }, */
         ),
         //Button to clear the text box, only appears when there is text in the box
         Visibility(

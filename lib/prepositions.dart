@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'speak_button.dart';
 import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
@@ -112,14 +113,7 @@ class _PrepositionPageState extends State<PrepositionPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Center(
         child: SizedBox(
           width: width * .95,

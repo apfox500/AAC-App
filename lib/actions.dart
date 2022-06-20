@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:thoughtspeech/buttons.dart';
+import 'package:thoughtspeech/speak_button.dart';
 import 'main.dart';
 import 'dictionary.dart';
 import 'transitions.dart';
@@ -125,14 +126,7 @@ class _ActionsPageState extends State<ActionsPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[

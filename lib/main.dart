@@ -11,6 +11,7 @@ import 'pronouns.dart' show PronounsPage;
 import 'objects.dart' show ObjectsPage;
 import 'package:text_to_speech/text_to_speech.dart';
 import 'globals.dart' show GlobalVars;
+import 'speak_button.dart';
 import 'transitions.dart'; //file with all the transitions
 import 'adjectives.dart' show AdjectivePage;
 import 'adverbs.dart' show AdverbPage;
@@ -73,11 +74,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _voiceText = "";
+  String _currentVoiceText = "";
 
   void _handleVoiceTextChanged(String newValue) {
     setState(() {
-      _voiceText = newValue;
+      _currentVoiceText = newValue;
     });
   }
 
@@ -85,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     if (widget.voiceText != null) {
-      _voiceText = widget.voiceText!;
+      _currentVoiceText = widget.voiceText!;
     }
   }
 
@@ -130,14 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       //Button to make it read aloud text
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_voiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -153,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextBox(
                     width: width,
                     height: height,
-                    voiceText: _voiceText,
+                    voiceText: _currentVoiceText,
                     handleVoiceTextChanged: _handleVoiceTextChanged),
                 //padding
                 const SizedBox(height: 25),
@@ -167,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         ScaleRoute(
                           page: ObjectsPage(
-                            voiceText: _voiceText,
+                            voiceText: _currentVoiceText,
                             setTextValue: _handleVoiceTextChanged,
                           ),
                         ),
@@ -209,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   context,
                                   ScaleRoute(
                                     page: PronounsPage(
-                                      voiceText: _voiceText,
+                                      voiceText: _currentVoiceText,
                                       setTextValue: _handleVoiceTextChanged,
                                     ),
                                   ),
@@ -244,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   context,
                                   ScaleRoute(
                                     page: CommonSentencesPage(
-                                      voiceText: _voiceText,
+                                      voiceText: _currentVoiceText,
                                       setTextValue: _handleVoiceTextChanged,
                                     ),
                                   ),
@@ -281,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               context,
                               ScaleRoute(
                                 page: ActionsPage(
-                                  voiceText: _voiceText,
+                                  voiceText: _currentVoiceText,
                                   setTextValue: _handleVoiceTextChanged,
                                 ),
                               ),
@@ -318,7 +312,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         ScaleRoute(
                           page: AdjectivePage(
-                            voiceText: _voiceText,
+                            voiceText: _currentVoiceText,
                             setTextValue: _handleVoiceTextChanged,
                           ),
                         ),
@@ -357,7 +351,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               context,
                               ScaleRoute(
                                 page: AdverbPage(
-                                  voiceText: _voiceText,
+                                  voiceText: _currentVoiceText,
                                   setTextValue: _handleVoiceTextChanged,
                                 ),
                               ),
@@ -394,7 +388,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   context,
                                   ScaleRoute(
                                     page: PrepositionPage(
-                                      voiceText: _voiceText,
+                                      voiceText: _currentVoiceText,
                                       setTextValue: _handleVoiceTextChanged,
                                     ),
                                   ),
@@ -429,7 +423,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   context,
                                   ScaleRoute(
                                     page: InterjectionPage(
-                                      voiceText: _voiceText,
+                                      voiceText: _currentVoiceText,
                                       setTextValue: _handleVoiceTextChanged,
                                     ),
                                   ),
@@ -468,7 +462,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         ScaleRoute(
                           page: ConjunctionPage(
-                            voiceText: _voiceText,
+                            voiceText: _currentVoiceText,
                             setTextValue: _handleVoiceTextChanged,
                           ),
                         ),
@@ -508,20 +502,25 @@ Future<void> getUserData() async {
       .collection("Users")
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .get()
-      .then((DocumentSnapshot documentSnapshot) {
-    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-    //once we have the map, then we assign to some variables and change our global variable
-    double pitch = data["pitch"];
-    double volume = data["volume"];
-    double rate = data["rate"];
-    String language = data["language"];
-    globalVars.language = language;
-    globalVars.pitch = pitch;
-    globalVars.rate = rate;
-    globalVars.volume = volume;
-    globalVars.tts.setLanguage(language);
-    globalVars.tts.setPitch(pitch);
-    globalVars.tts.setRate(rate);
-    globalVars.tts.setVolume(volume);
-  });
+      .then(
+    (DocumentSnapshot documentSnapshot) {
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      //once we have the map, then we assign to some variables and change our global variable
+      double pitch = data["pitch"];
+      double volume = data["volume"];
+      double rate = data["rate"];
+      String language = data["language"];
+      List<dynamic> past = data["past"];
+      globalVars.language = language;
+      globalVars.pitch = pitch;
+      globalVars.rate = rate;
+      globalVars.volume = volume;
+      globalVars.tts.setLanguage(language);
+      globalVars.tts.setPitch(pitch);
+      globalVars.tts.setRate(rate);
+      globalVars.tts.setVolume(volume);
+      globalVars.past = past.map((e) => e.toString()).toList();
+      globalVars.uid = FirebaseAuth.instance.currentUser!.uid;
+    },
+  );
 }

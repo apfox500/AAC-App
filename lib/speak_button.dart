@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'main.dart';
@@ -17,13 +16,20 @@ class SpeakButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         if (_currentVoiceText != "") {
-          if (!globalVars.past!.contains(_currentVoiceText)) {
-            globalVars.past!.add(_currentVoiceText);
+          //speaks
+          globalVars.tts.speak(_currentVoiceText);
+          if (!globalVars.past.contains(_currentVoiceText)) {
+            //checks to make sure that the sentence isnt already in there
+            //adds the sentence to globalVars.past
+            globalVars.past.add(_currentVoiceText);
+            //checks to make sure that past isnt too long, will only save the last 20 sentences(random arbitrary number, might change)
+            if (globalVars.past.length > 20) {
+              globalVars.past.removeAt(0); //removes the last index
+            }
             globalVars.doc!.update(
               {"past": globalVars.past},
             );
           }
-          globalVars.tts.speak(_currentVoiceText);
         }
       },
       heroTag: 'readaloudbtn',

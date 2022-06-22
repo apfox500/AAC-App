@@ -2,6 +2,7 @@ import 'actions.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'conjuctions.dart' show Conjunction;
 import 'adverbs.dart' show Adverb;
+import 'objects.dart' show Thing;
 import 'prepositions.dart' show Preposition;
 
 // This needs to be divisible by 7 or it goes poorly
@@ -144,6 +145,37 @@ List<Action> actions = [
   Action(name: "Stack", color: randomColor()),
   Action(name: "Buy", color: randomColor()),
   Action(name: "Shake", icon: const Icon(Icons.handshake, color: Colors.white), color: randomColor()),
+];
+
+//This needs to be divisible by 7 or it goes poorly
+//list of objects
+List<Thing> objects = [
+  Thing(
+      name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white), color: randomColor()),
+  Thing(
+      name: "Ball", icon: const Icon(Icons.sports_soccer, color: Colors.white), color: randomColor()),
+  Thing(
+      name: "Sandwich",
+      icon: const Icon(Icons.lunch_dining, color: Colors.white),
+      plural: "Sandwiches",
+      color: randomColor()),
+  Thing(
+      name: "Football",
+      icon: const Icon(Icons.sports_football, color: Colors.white),
+      color: randomColor()),
+  Thing(name: "Field", color: randomColor()),
+  Thing(
+      name: "Computer", icon: const Icon(Icons.computer, color: Colors.white), color: randomColor()),
+  Thing(name: "Pencil", icon: const Icon(Icons.edit, color: Colors.white), color: randomColor()),
+  Thing(
+      name: "Paper", icon: const Icon(Icons.description, color: Colors.white), color: randomColor()),
+  Thing(name: "Pen", color: randomColor()),
+  Thing(name: "School", icon: const Icon(Icons.school, color: Colors.white), color: randomColor()),
+  Thing(name: "Airpod", plural: "Airpods", color: randomColor()),
+  Thing(
+      name: "Phone", icon: const Icon(Icons.phone_iphone, color: Colors.white), color: randomColor()),
+  Thing(name: "TV", icon: const Icon(Icons.tv, color: Colors.white), color: randomColor()),
+  Thing(name: "Water", icon: const Icon(Icons.water, color: Colors.white), color: randomColor()),
 ];
 
 //list of conjunctions

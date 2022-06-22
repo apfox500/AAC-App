@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thoughtspeech/profile.dart';
+import 'dictionary.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart' show LoginPage;
@@ -21,12 +22,9 @@ import 'conjuctions.dart' show ConjunctionPage;
 import 'textbox.dart';
 
 //posisible title of thought speak
-//TODO: previous sentence(perhaps by clicking the box?)
 //TODO: add an undo button that undoes the last thing added
 //TODO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
-//TODO: go and comment everything, make the whole file comments basically
 //TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
-//TODO: have the frequency of clicks also be date based, so it only does like the most used in the last month(What the guy said in our interview)
 late GlobalVars globalVars;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -498,6 +496,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 Future<void> getUserData() async {
+  //using await because necesary to have settings loaded in
+  //gets prefernces and creates variables
   await FirebaseFirestore.instance
       .collection("Users")
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -524,4 +524,47 @@ Future<void> getUserData() async {
     },
   );
   globalVars.doc = FirebaseFirestore.instance.collection("Users").doc(globalVars.uid);
+  //load in all the freqs for all words in dictionary(if they exist)
+
+  globalVars.doc!.get().then((DocumentSnapshot documentSnapshot) {
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+    List<dynamic> freqs = data["freqs"] as List<dynamic>;
+    for (var i = 0; i <= 7; i++) {
+      Map<String, dynamic> actionsFreqs = freqs[i] as Map<String, dynamic>;
+      actionsFreqs.forEach(
+        (key, value) {
+          List<DateTime> values =
+              (value as List<dynamic>).map((e) => (e as Timestamp).toDate()).toList();
+          //goes through for each part of speech(faster to do a loop with this than same code many times)
+          //not all of them sort(yet), or have been completed which is why currently it looks a little useless, but like trust me bro this is smart
+          if (i == 0) {
+            //Actions(0)
+            actions.firstWhere((element) => element.name == key).freqs = values;
+          } else if (i == 1) {
+            //Adjectives(1)
+            //not made yet
+          } else if (i == 2) {
+            //Adverbs(2)
+            //doesnt sort
+          } else if (i == 3) {
+            //conjunctions(3)
+            //doesnt sort
+          } else if (i == 4) {
+            //interjections(4)
+            //not made yet
+          } else if (i == 5) {
+            //objects(5)
+            objects.firstWhere((element) => element.name == key).freqs = values;
+          } else if (i == 6) {
+            //prepositions(6)
+            //doesnt sort
+          } else if (i == 7) {
+            //pronouns(7)
+            //doesnt sort
+          }
+          globalVars.freqs[i][key] = values;
+        },
+      );
+    }
+  });
 }

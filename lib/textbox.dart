@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:thoughtspeech/main.dart';
@@ -114,7 +113,7 @@ class TextWidget extends StatelessWidget {
   }
 }
 
-class PastWidget extends StatelessWidget {
+class PastWidget extends StatefulWidget {
   const PastWidget({
     Key? key,
     required this.widget,
@@ -123,14 +122,20 @@ class PastWidget extends StatelessWidget {
   final TextBox widget;
 
   @override
+  State<PastWidget> createState() => _PastWidgetState();
+}
+
+class _PastWidgetState extends State<PastWidget> {
+  @override
   Widget build(BuildContext context) {
-    double height = globalVars.past!.length * 40;
-    if (height > widget.height * .45) height = widget.height * .45;
+    double height = globalVars.past.length * 40;
+    if (height > widget.widget.height * .45) height = widget.widget.height * .45;
     return SizedBox(
       height: height,
-      width: widget.width * .8,
+      width: widget.widget.width * .8,
       child: ListView.builder(
-        itemCount: globalVars.past!.length,
+        controller: ScrollController(),
+        itemCount: globalVars.past.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             child: Card(
@@ -138,7 +143,7 @@ class PastWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                    globalVars.past!.reversed.elementAt(index),
+                    globalVars.past.reversed.elementAt(index),
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ),
@@ -146,16 +151,28 @@ class PastWidget extends StatelessWidget {
             ),
             onTap: () {
               //make phrase the previous one
-              widget.handleVoiceTextChanged(
-                globalVars.past!.reversed.elementAt(index),
+              widget.widget.handleVoiceTextChanged(
+                globalVars.past.reversed.elementAt(index),
               );
               //bring it back to top
-              String phrase = globalVars.past!.removeAt((globalVars.past!.length - index) - 1);
-              globalVars.past!.add(phrase);
+              String phrase = globalVars.past.removeAt(
+                (globalVars.past.length - index) - 1,
+              );
+              globalVars.past.add(phrase);
               //Save to firebase
               globalVars.doc!.update(
-                {"past": globalVars.past!},
+                {"past": globalVars.past},
               );
+            },
+            onLongPress: () {
+              //removes from history on long press
+              globalVars.past.removeAt(
+                (globalVars.past.length - index) - 1,
+              );
+              globalVars.doc!.update(
+                {"past": globalVars.past},
+              );
+              setState(() {});
             },
           );
         },

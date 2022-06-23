@@ -1,3 +1,4 @@
+import 'adjectives.dart';
 import 'objects.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'actions.dart';
@@ -131,6 +132,53 @@ class HomeButton extends StatelessWidget {
                 ? "Home Page"
                 : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
             voiceText: currentVoiceText,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AdjectiveListButton extends StatelessWidget {
+  const AdjectiveListButton({
+    Key? key,
+    required this.defaultWidth,
+    required this.defaultHeight,
+    required this.label,
+    required this.objectButtonPressed,
+  }) : super(key: key);
+
+  final double defaultWidth;
+  final double defaultHeight;
+  final Adjective label;
+  final Function(Adjective input, {bool plural}) objectButtonPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTap: () => objectButtonPressed(label, plural: true),
+      child: Container(
+        width: defaultWidth,
+        height: defaultHeight,
+        decoration: BoxDecoration(
+          color: label.color,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: TextButton(
+          onPressed: () {
+            objectButtonPressed(label);
+          },
+          child: Text(
+            label.toString(),
+            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
           ),
         ),
       ),

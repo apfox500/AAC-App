@@ -542,7 +542,7 @@ Future<void> getUserData() async {
             actions.firstWhere((element) => element.name == key).freqs = values;
           } else if (i == 1) {
             //Adjectives(1)
-            //not made yet
+            adjectives.firstWhere((element) => element.name == key).freqs = values;
           } else if (i == 2) {
             //Adverbs(2)
             //doesnt sort

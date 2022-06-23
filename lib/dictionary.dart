@@ -1,5 +1,6 @@
 import 'actions.dart';
 import 'package:flutter/material.dart' hide Action;
+import 'adjectives.dart';
 import 'conjuctions.dart' show Conjunction;
 import 'adverbs.dart' show Adverb;
 import 'objects.dart' show Thing;
@@ -349,3 +350,7 @@ List<Preposition> participle = [
   Preposition("During", randomColor()),
   Preposition("Touching", randomColor()),
 ];
+
+//Liste of adjectives
+List<Adjective> adjectives = [];
+Adjective test = Adjective(name: "hello", color: randomColor());

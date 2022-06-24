@@ -1,5 +1,6 @@
 import 'actions.dart';
 import 'package:flutter/material.dart' hide Action;
+import 'adjectives.dart';
 import 'conjuctions.dart' show Conjunction;
 import 'adverbs.dart' show Adverb;
 import 'prepositions.dart' show Preposition;
@@ -31,10 +32,22 @@ Map<String, List<String>> verbsToConjugations = {
   'try': ['try', 'tries', 'tried', 'trying', 'to try'],
   'leave': ['leave', 'leaves', 'left', 'leaving', 'to leave'],
   'call': ['call', 'calls', 'called', 'calling', 'to call'],
-  'Watch TV': ['watch tv', 'watches tv', 'watched tv', 'watching tv', 'to watch tv'],
+  'Watch TV': [
+    'watch tv',
+    'watches tv',
+    'watched tv',
+    'watching tv',
+    'to watch tv'
+  ],
   'Dance': ['dance', 'dances', 'danced', 'dancing', 'to dance'],
   'Turn on': ['turn on', 'turns on', 'turned on', 'turning on', 'to turn on'],
-  'Turn off': ['turn off', 'turns off', 'turned off', 'turning off', 'to turn off'],
+  'Turn off': [
+    'turn off',
+    'turns off',
+    'turned off',
+    'turning off',
+    'to turn off'
+  ],
   'Win': ['win', 'wins', 'won', 'winning', 'to win'],
   'Fly': ['fly', 'flies', 'flew', 'flying', 'flown', 'to fly'],
   'Cut': ['cut', 'cuts', 'cutting', 'to cut'],
@@ -96,27 +109,59 @@ List<Action> actions = [
   Action(name: "try", color: randomColor()),
   Action(name: "leave", color: randomColor()),
   Action(name: "call", color: randomColor()),
-  Action(name: "Watch TV", icon: const Icon(Icons.tv, color: Colors.white), color: randomColor()),
+  Action(
+      name: "Watch TV",
+      icon: const Icon(Icons.tv, color: Colors.white),
+      color: randomColor()),
   Action(name: "Dance", color: randomColor()),
-  Action(name: "Turn on", icon: const Icon(Icons.power, color: Colors.white), color: randomColor()),
   Action(
-      name: "Turn off", icon: const Icon(Icons.power_off, color: Colors.white), color: randomColor()),
+      name: "Turn on",
+      icon: const Icon(Icons.power, color: Colors.white),
+      color: randomColor()),
   Action(
-      name: "Win", icon: const Icon(Icons.emoji_events, color: Colors.white), color: randomColor()),
-  Action(name: "Fly", icon: const Icon(Icons.flight, color: Colors.white), color: randomColor()),
-  Action(name: "Cut", icon: const Icon(Icons.cut, color: Colors.white), color: randomColor()),
-  Action(name: "Throw", icon: const Icon(Icons.delete, color: Colors.white), color: randomColor()),
-  Action(name: "Close", icon: const Icon(Icons.close, color: Colors.white), color: randomColor()),
+      name: "Turn off",
+      icon: const Icon(Icons.power_off, color: Colors.white),
+      color: randomColor()),
+  Action(
+      name: "Win",
+      icon: const Icon(Icons.emoji_events, color: Colors.white),
+      color: randomColor()),
+  Action(
+      name: "Fly",
+      icon: const Icon(Icons.flight, color: Colors.white),
+      color: randomColor()),
+  Action(
+      name: "Cut",
+      icon: const Icon(Icons.cut, color: Colors.white),
+      color: randomColor()),
+  Action(
+      name: "Throw",
+      icon: const Icon(Icons.delete, color: Colors.white),
+      color: randomColor()),
+  Action(
+      name: "Close",
+      icon: const Icon(Icons.close, color: Colors.white),
+      color: randomColor()),
   Action(name: "Open", color: randomColor()),
-  Action(name: "Write", icon: const Icon(Icons.edit, color: Colors.white), color: randomColor()),
+  Action(
+      name: "Write",
+      icon: const Icon(Icons.edit, color: Colors.white),
+      color: randomColor()),
   Action(name: "Give", color: randomColor()),
   Action(name: "Jump", color: randomColor()),
   Action(
-      name: "Drink", icon: const Icon(Icons.local_cafe, color: Colors.white), color: randomColor()),
+      name: "Drink",
+      icon: const Icon(Icons.local_cafe, color: Colors.white),
+      color: randomColor()),
   Action(name: "Cook", color: randomColor()),
-  Action(name: "Wash", icon: const Icon(Icons.wash, color: Colors.white), color: randomColor()),
   Action(
-      name: "Wait", icon: const Icon(Icons.hourglass_top, color: Colors.white), color: randomColor()),
+      name: "Wash",
+      icon: const Icon(Icons.wash, color: Colors.white),
+      color: randomColor()),
+  Action(
+      name: "Wait",
+      icon: const Icon(Icons.hourglass_top, color: Colors.white),
+      color: randomColor()),
   Action(name: "Climb", color: randomColor()),
   Action(
       name: "Talk",
@@ -132,18 +177,35 @@ List<Action> actions = [
   Action(name: "Kiss", color: randomColor()),
   Action(name: "Hug", color: randomColor()),
   Action(name: "Snore", color: randomColor()),
-  Action(name: "Bathe", color: randomColor(), icon: const Icon(Icons.shower, color: Colors.white)),
+  Action(
+      name: "Bathe",
+      color: randomColor(),
+      icon: const Icon(Icons.shower, color: Colors.white)),
   Action(name: "Bow", color: randomColor()),
-  Action(name: "Paint", color: randomColor(), icon: const Icon(Icons.brush, color: Colors.white)),
+  Action(
+      name: "Paint",
+      color: randomColor(),
+      icon: const Icon(Icons.brush, color: Colors.white)),
   Action(name: "Dive", color: randomColor()),
-  Action(name: "Ski", color: randomColor(), icon: const Icon(Icons.pool, color: Colors.white)),
+  Action(
+      name: "Ski",
+      color: randomColor(),
+      icon: const Icon(Icons.pool, color: Colors.white)),
   Action(
       name: "Ski",
       icon: const Icon(Icons.downhill_skiing, color: Colors.white),
       color: randomColor()),
   Action(name: "Stack", color: randomColor()),
   Action(name: "Buy", color: randomColor()),
-  Action(name: "Shake", icon: const Icon(Icons.handshake, color: Colors.white), color: randomColor()),
+  Action(
+      name: "Shake",
+      icon: const Icon(Icons.handshake, color: Colors.white),
+      color: randomColor()),
+];
+
+//list of adjectives
+List<Adjective> adjs = [
+  Adjective(name: "bad", color: randomColor()),
 ];
 
 //list of conjunctions

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thoughtspeech/buttons.dart';
 import 'main.dart';
 import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,8 @@ import 'objects.dart';
 
 //TODO: make the adjectives page
 class AdjectivePage extends StatefulWidget {
-  const AdjectivePage({Key? key, required this.voiceText, required this.setTextValue})
+  const AdjectivePage(
+      {Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
@@ -81,7 +83,8 @@ class _AdjectivePageState extends State<AdjectivePage> {
               page: MyHomePage(
                 title: (FirebaseAuth.instance.currentUser == null)
                     ? "Home Page"
-                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                    : FirebaseAuth.instance.currentUser!.displayName! +
+                        "'s Home Page",
                 voiceText: _currentVoiceText,
               ),
             ),
@@ -105,9 +108,37 @@ class _AdjectivePageState extends State<AdjectivePage> {
                 height: MediaQuery.of(context).size.height,
                 voiceText: _currentVoiceText,
                 handleVoiceTextChanged: _handleTextUpdate),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * .7,
+              child: ListView.builder(
+                itemCount: adjectives.length,
+                itemBuilder: (context, index) {
+                  return Text(adjectives[index]);
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+List<String> adjectives = ["Cool", "Stupid"];
+
+class Adjective extends Comparable {
+  Adjective({required this.name, required this.color});
+  int freq = 0;
+  Color color;
+  final String name;
+  @override
+  int compareTo(other) {
+    if (freq > other.freq) {
+      return -1;
+    } else if (freq < other.freq) {
+      return 1;
+    }
+    return 0;
   }
 }

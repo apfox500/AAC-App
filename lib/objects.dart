@@ -9,9 +9,13 @@ import 'textbox.dart';
 //list of objects
 List<Thing> objects = [
   Thing(
-      name: "Pizza", icon: const Icon(Icons.local_pizza, color: Colors.white), color: randomColor()),
+      name: "Pizza",
+      icon: const Icon(Icons.local_pizza, color: Colors.white),
+      color: randomColor()),
   Thing(
-      name: "Ball", icon: const Icon(Icons.sports_soccer, color: Colors.white), color: randomColor()),
+      name: "Ball",
+      icon: const Icon(Icons.sports_soccer, color: Colors.white),
+      color: randomColor()),
   Thing(
       name: "Sandwich",
       icon: const Icon(Icons.lunch_dining, color: Colors.white),
@@ -23,22 +27,44 @@ List<Thing> objects = [
       color: randomColor()),
   Thing(name: "Field", color: randomColor()),
   Thing(
-      name: "Computer", icon: const Icon(Icons.computer, color: Colors.white), color: randomColor()),
-  Thing(name: "Pencil", icon: const Icon(Icons.edit, color: Colors.white), color: randomColor()),
+      name: "Computer",
+      icon: const Icon(Icons.computer, color: Colors.white),
+      color: randomColor()),
   Thing(
-      name: "Paper", icon: const Icon(Icons.description, color: Colors.white), color: randomColor()),
+      name: "Pencil",
+      icon: const Icon(Icons.edit, color: Colors.white),
+      color: randomColor()),
+  Thing(
+      name: "Paper",
+      icon: const Icon(Icons.description, color: Colors.white),
+      color: randomColor()),
   Thing(name: "Pen", color: randomColor()),
-  Thing(name: "School", icon: const Icon(Icons.school, color: Colors.white), color: randomColor()),
+  Thing(
+      name: "School",
+      icon: const Icon(Icons.school, color: Colors.white),
+      color: randomColor()),
   Thing(name: "Airpod", plural: "Airpods", color: randomColor()),
   Thing(
-      name: "Phone", icon: const Icon(Icons.phone_iphone, color: Colors.white), color: randomColor()),
-  Thing(name: "TV", icon: const Icon(Icons.tv, color: Colors.white), color: randomColor()),
-  Thing(name: "Water", icon: const Icon(Icons.water, color: Colors.white), color: randomColor()),
+      name: "Phone",
+      icon: const Icon(Icons.phone_iphone, color: Colors.white),
+      color: randomColor()),
+  Thing(
+      name: "TV",
+      icon: const Icon(Icons.tv, color: Colors.white),
+      color: randomColor()),
+  Thing(
+      name: "Water",
+      icon: const Icon(Icons.water, color: Colors.white),
+      color: randomColor()),
 ];
 
 //TODO swipe on the button to add "the" before the object
 class ObjectsPage extends StatefulWidget {
-  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue, this.leading})
+  const ObjectsPage(
+      {Key? key,
+      required this.voiceText,
+      required this.setTextValue,
+      this.leading})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
@@ -83,7 +109,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
     return Scaffold(
       appBar: AppBar(
           title: const Text("Objects"),
-          leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
+          leading: widget.leading ??
+              HomeButton(currentVoiceText: _currentVoiceText)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           globalVars.tts.speak(_currentVoiceText);
@@ -107,7 +134,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
               itemCount: objects.length ~/ 7,
               itemBuilder: ((context, int index) {
                 objects.sort();
-                List<Thing> labels = objects.sublist(index * 7, (index + 1) * 7);
+                List<Thing> labels =
+                    objects.sublist(index * 7, (index + 1) * 7);
                 double height = MediaQuery.of(context).size.height;
                 double width = MediaQuery.of(context).size.width * .9;
                 double _defaultHeight = height / 6.7;
@@ -192,7 +220,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 }
 
-Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
+Color randomColor() =>
+    Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
 //had to call thi sclas 'Thing' because we can't very well call it Object
 class Thing extends Comparable {

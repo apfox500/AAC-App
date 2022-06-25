@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'speak_button.dart';
 import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
@@ -52,14 +53,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

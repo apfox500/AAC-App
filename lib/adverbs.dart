@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'speak_button.dart';
 import 'transitions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
@@ -89,14 +90,7 @@ class _AdverbPageState extends State<AdverbPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: SizedBox(

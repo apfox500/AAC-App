@@ -6,9 +6,14 @@ import 'main.dart';
 import 'speak_button.dart';
 import 'textbox.dart';
 
+
 //TODO swipe on the button to add "the" before the object
 class ObjectsPage extends StatefulWidget {
-  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue, this.leading})
+  const ObjectsPage(
+      {Key? key,
+      required this.voiceText,
+      required this.setTextValue,
+      this.leading})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
@@ -61,6 +66,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
     return Scaffold(
       appBar: AppBar(
           title: const Text("Objects"),
+
           leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Column(
@@ -78,7 +84,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
               itemCount: objects.length ~/ 7,
               itemBuilder: ((context, int index) {
                 objects.sort();
-                List<Thing> labels = objects.sublist(index * 7, (index + 1) * 7);
+                List<Thing> labels =
+                    objects.sublist(index * 7, (index + 1) * 7);
                 double height = MediaQuery.of(context).size.height;
                 double width = MediaQuery.of(context).size.width * .9;
                 double _defaultHeight = height / 6.7;
@@ -163,7 +170,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 }
 
-Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
+Color randomColor() =>
+    Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
 //had to call thi sclas 'Thing' because we can't very well call it Object
 class Thing extends Comparable {

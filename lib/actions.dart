@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:thoughtspeech/buttons.dart';
+import 'package:thoughtspeech/speak_button.dart';
 import 'main.dart';
 import 'dictionary.dart';
 import 'transitions.dart';
@@ -73,15 +74,16 @@ class _ActionsPageState extends State<ActionsPage> {
 
   void actionButtonPressed(Action input, BuildContext context) {
     //Rellly really hope that everything is passed by reference otherwise im screwed with frequencies
-    input.freq++;
+
     List<String> forms = input.conjugate();
     showDialog(
         context: context,
         builder: (context) {
           return SimpleDialog(children: [
             Center(
-                child: Text("Conjugations of '${input.name}':",
-                    style: Theme.of(context).textTheme.headline4)),
+              child: Text("Conjugations of '${input.name}':",
+                  style: Theme.of(context).textTheme.headline4),
+            ),
             SizedBox(
               height: forms.length * 50,
               width: MediaQuery.of(context).size.width * .6,
@@ -96,6 +98,15 @@ class _ActionsPageState extends State<ActionsPage> {
                         onTap: () {
                           _handleTextUpdate(_currentVoiceText + " " + forms[index]);
                           Navigator.pop(context, true);
+                          input.freq++;
+                          //adds the date to the freqs list, checks to make sure it is null beofre adding, otherwise makes it a new list
+                          if (input.freqs != null) {
+                            input.freqs!.add(DateTime.now());
+                          } else {
+                            input.freqs = [DateTime.now()];
+                          }
+                          globalVars.freqs[0][input.name] = input.freqs!;
+                          globalVars.doc!.update({"freqs": globalVars.freqs});
                         });
                   })),
             ),
@@ -125,14 +136,7 @@ class _ActionsPageState extends State<ActionsPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -239,11 +243,10 @@ Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length
 
 class Action extends Comparable {
   final String name;
-
   Icon? icon;
   int freq = 0;
   Color color;
-
+  List<DateTime>? freqs;
   Action({required this.name, this.icon, required this.color});
 
   @override
@@ -261,11 +264,38 @@ class Action extends Comparable {
 
   @override
   int compareTo(other) {
-    if (freq > other.freq) {
-      return -1;
-    } else if (freq < other.freq) {
-      return 1;
+    if (freqs == null) {
+      //traditional compare, runs if there is not a list of datetimes(oldversion)
+      if (freq > other.freq) {
+        return -1;
+      } else if (freq < other.freq) {
+        return 1;
+      }
+      return 0;
+    } else {
+      //compares dates, so only those that are recently used or used so much they overide time go to front
+      double otherFreqs = other.getFreqsTime();
+      double freqsTime = getFreqsTime();
+      if (freqsTime > otherFreqs) {
+        return -1;
+      } else if (freqsTime < otherFreqs) {
+        return 1;
+      }
+      return 0;
     }
-    return 0;
+  }
+
+  double getFreqsTime() {
+    //for now it is only linear(freq/time), may convert to some other relationship later to change weighting
+    if (freqs != null) {
+      int total = 0; //total days to be added up
+      for (DateTime date in freqs!) {
+        //add one because otherwise there would be dividing by zero
+        total += DateTime.now().difference(date).inDays + 1;
+      }
+      return freqs!.length / total;
+    } else {
+      return 0;
+    }
   }
 }

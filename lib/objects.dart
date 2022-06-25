@@ -1,62 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'buttons.dart';
+import 'dictionary.dart';
+import 'main.dart';
+import 'speak_button.dart';
 import 'textbox.dart';
 
-//TODO: objects with pictures
-// This needs to be divisible by 7 or it goes poorly
-//list of objects
-List<Thing> objects = [
-  Thing(
-      name: "Pizza",
-      icon: const Icon(Icons.local_pizza, color: Colors.white),
-      color: randomColor()),
-  Thing(
-      name: "Ball",
-      icon: const Icon(Icons.sports_soccer, color: Colors.white),
-      color: randomColor()),
-  Thing(
-      name: "Sandwich",
-      icon: const Icon(Icons.lunch_dining, color: Colors.white),
-      plural: "Sandwiches",
-      color: randomColor()),
-  Thing(
-      name: "Football",
-      icon: const Icon(Icons.sports_football, color: Colors.white),
-      color: randomColor()),
-  Thing(name: "Field", color: randomColor()),
-  Thing(
-      name: "Computer",
-      icon: const Icon(Icons.computer, color: Colors.white),
-      color: randomColor()),
-  Thing(
-      name: "Pencil",
-      icon: const Icon(Icons.edit, color: Colors.white),
-      color: randomColor()),
-  Thing(
-      name: "Paper",
-      icon: const Icon(Icons.description, color: Colors.white),
-      color: randomColor()),
-  Thing(name: "Pen", color: randomColor()),
-  Thing(
-      name: "School",
-      icon: const Icon(Icons.school, color: Colors.white),
-      color: randomColor()),
-  Thing(name: "Airpod", plural: "Airpods", color: randomColor()),
-  Thing(
-      name: "Phone",
-      icon: const Icon(Icons.phone_iphone, color: Colors.white),
-      color: randomColor()),
-  Thing(
-      name: "TV",
-      icon: const Icon(Icons.tv, color: Colors.white),
-      color: randomColor()),
-  Thing(
-      name: "Water",
-      icon: const Icon(Icons.water, color: Colors.white),
-      color: randomColor()),
-];
 
 //TODO swipe on the button to add "the" before the object
 class ObjectsPage extends StatefulWidget {
@@ -89,7 +38,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 
   void objectButtonPressed(Thing input, {bool plural = false}) {
-    //Relly really hope that everything is passed by reference otherwise im screwed with frequencies
+    //Really really hope that everything is passed by reference otherwise im screwed with frequencies
     input.freq++;
     if (!plural) {
       _handleTextUpdate(_currentVoiceText + " " + input.name);
@@ -100,6 +49,14 @@ class _ObjectsPageState extends State<ObjectsPage> {
         _handleTextUpdate(_currentVoiceText + " " + input.plural!);
       }
     }
+    //adds the date to the freqs list, checks to make sure it is null beofre adding, otherwise makes it a new list
+    if (input.freqs != null) {
+      input.freqs!.add(DateTime.now());
+    } else {
+      input.freqs = [DateTime.now()];
+    }
+    globalVars.freqs[5][input.name] = input.freqs!;
+    globalVars.doc!.update({"freqs": globalVars.freqs});
   }
 
   @override
@@ -109,16 +66,9 @@ class _ObjectsPageState extends State<ObjectsPage> {
     return Scaffold(
       appBar: AppBar(
           title: const Text("Objects"),
-          leading: widget.leading ??
-              HomeButton(currentVoiceText: _currentVoiceText)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globalVars.tts.speak(_currentVoiceText);
-        },
-        heroTag: 'readaloudbtn',
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.record_voice_over),
-      ),
+
+          leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
+      floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -228,10 +178,9 @@ class Thing extends Comparable {
   final String name;
   String? plural;
   Color color;
-
   Icon? icon;
   int freq = 0;
-
+  List<DateTime>? freqs;
   Thing({required this.name, this.icon, this.plural, required this.color});
 
   @override
@@ -245,11 +194,38 @@ class Thing extends Comparable {
 
   @override
   int compareTo(other) {
-    if (freq > other.freq) {
-      return -1;
-    } else if (freq < other.freq) {
-      return 1;
+    if (freqs == null) {
+      //traditional compare, runs if there is not a list of datetimes(oldversion)
+      if (freq > other.freq) {
+        return -1;
+      } else if (freq < other.freq) {
+        return 1;
+      }
+      return 0;
+    } else {
+      //compares dates, so only those that are recently used or used so much they overide time go to front
+      double otherFreqs = other.getFreqsTime();
+      double freqsTime = getFreqsTime();
+      if (freqsTime > otherFreqs) {
+        return -1;
+      } else if (freqsTime < otherFreqs) {
+        return 1;
+      }
+      return 0;
     }
-    return 0;
+  }
+
+  double getFreqsTime() {
+    //for now it is only linear(freq/time), may convert to some other relationship later to change weighting
+    if (freqs != null) {
+      int total = 0; //total days to be added up
+      for (DateTime date in freqs!) {
+        //add one because otherwise there would be dividing by zero
+        total += DateTime.now().difference(date).inDays + 1;
+      }
+      return freqs!.length / total;
+    } else {
+      return 0;
+    }
   }
 }

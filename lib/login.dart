@@ -11,8 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 //Tried to do some switching but it yelled at me :/, so now its basically useless
-enum options { login, password, signup, signup2 }
-var login = options.login;
+enum Options { login, password, signup, signup2 }
+
+var login = Options.login;
 
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
@@ -39,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           Center(
-            child: (login == options.login)
+            child: (login == Options.login)
                 //Normal Login
                 ? Container(
                     padding: const EdgeInsets.all(8),
@@ -82,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Text("Forgot Password?"),
                                 onPressed: () {
                                   //Forgot password function goes here
-                                  login = options.password;
+                                  login = Options.password;
                                   setState(() {});
                                 }),
                             //Sign up
@@ -90,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Text("Sign Up"),
                                 onPressed: () {
                                   //Forgot password function goes here
-                                  login = options.signup;
+                                  login = Options.signup;
                                   setState(() {});
                                 }),
                           ],
@@ -98,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   )
-                : (login == options.password)
+                : (login == Options.password)
                     //Forgot Password
                     ? Container(
                         padding: const EdgeInsets.all(8),
@@ -116,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                 //Back Button
                                 TextButton(
                                   onPressed: () {
-                                    login = options.login;
+                                    login = Options.login;
                                     pass2Controller.clear();
                                     passController.clear();
                                     emailController.clear();
@@ -163,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       )
                     //Sign up for an account
-                    : (login == options.signup)
+                    : (login == Options.signup)
                         ? Container(
                             padding: const EdgeInsets.all(8),
                             width: MediaQuery.of(context).size.width * .4,
@@ -180,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                                     //Back Button
                                     TextButton(
                                       onPressed: () {
-                                        login = options.login;
+                                        login = Options.login;
                                         pass2Controller.clear();
                                         passController.clear();
                                         emailController.clear();
@@ -277,7 +278,7 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () {
                                     _submitInfo(emailController.text, context);
                                     setState(() {
-                                      login = options.signup2;
+                                      login = Options.signup2;
                                     });
                                   },
                                   child: const Text("Save Info"),

@@ -54,6 +54,93 @@ class _ObjectsPageState extends State<ObjectsPage> {
     globalVars.doc!.update({"freqs": globalVars.freqs});
   }
 
+  List<Widget> generateButtons() {
+    List<Widget> ret = [];
+    objects.sort();
+
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width * .9;
+    double _defaultHeight = height / 6.7;
+    double _defaultWidth = width / 2.05;
+    for (var index = 0; index < objects.length / 7; index += 7) {
+      List<Thing> labels = objects.sublist(index * 7, (index + 1) * 7);
+      ret.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //labels[0]
+                      ThingListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[0],
+                          objectButtonPressed: objectButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[1]
+                      ThingListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight * 2,
+                          label: labels[1],
+                          objectButtonPressed: objectButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[2]
+                      ThingListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[2],
+                          objectButtonPressed: objectButtonPressed),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //labels[3]
+                      ThingListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[3],
+                          objectButtonPressed: objectButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[4]
+                      ThingListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[4],
+                          objectButtonPressed: objectButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[5]
+                      ThingListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight * 2,
+                          label: labels[5],
+                          objectButtonPressed: objectButtonPressed),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: height * .05),
+              //labels[6]
+              ThingListButton(
+                  defaultWidth: _defaultWidth * 2.1,
+                  defaultHeight: _defaultHeight,
+                  label: labels[6],
+                  objectButtonPressed: objectButtonPressed),
+              SizedBox(height: height * .05),
+            ],
+          ),
+        ),
+      );
+    }
+    return ret;
+  }
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -63,101 +150,19 @@ class _ObjectsPageState extends State<ObjectsPage> {
           title: const Text("Objects"),
           leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          TextBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              voiceText: _currentVoiceText,
-              handleVoiceTextChanged: _handleTextUpdate),
-          SizedBox(height: _height * .045),
-          SizedBox(
-            height: _height * .68,
-            child: ListView.builder(
-              itemCount: objects.length ~/ 7,
-              itemBuilder: ((context, int index) {
-                objects.sort();
-                List<Thing> labels = objects.sublist(index * 7, (index + 1) * 7);
-                double height = MediaQuery.of(context).size.height;
-                double width = MediaQuery.of(context).size.width * .9;
-                double _defaultHeight = height / 6.7;
-                double _defaultWidth = width / 2.05;
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              //labels[0]
-                              ThingListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[0],
-                                  objectButtonPressed: objectButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[1]
-                              ThingListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight * 2,
-                                  label: labels[1],
-                                  objectButtonPressed: objectButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[2]
-                              ThingListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[2],
-                                  objectButtonPressed: objectButtonPressed),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              //labels[3]
-                              ThingListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[3],
-                                  objectButtonPressed: objectButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[4]
-                              ThingListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[4],
-                                  objectButtonPressed: objectButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[5]
-                              ThingListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight * 2,
-                                  label: labels[5],
-                                  objectButtonPressed: objectButtonPressed),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: height * .05),
-                      //labels[6]
-                      ThingListButton(
-                          defaultWidth: _defaultWidth * 2.1,
-                          defaultHeight: _defaultHeight,
-                          label: labels[6],
-                          objectButtonPressed: objectButtonPressed),
-                      SizedBox(height: height * .05),
-                    ],
-                  ),
-                );
-              }),
-            ),
-          )
-        ],
+      body: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListView(
+          children: [
+                TextBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    voiceText: _currentVoiceText,
+                    handleVoiceTextChanged: _handleTextUpdate),
+                SizedBox(height: _height * .045),
+              ] +
+              generateButtons(),
+        ),
       ),
     );
   }

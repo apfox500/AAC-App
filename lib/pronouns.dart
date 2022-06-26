@@ -745,9 +745,9 @@ class _PronounsPageState extends State<PronounsPage> {
         ),
       ),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListView(
           children: <Widget>[
             //Read aloud text
             TextBox(

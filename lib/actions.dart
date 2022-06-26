@@ -114,6 +114,94 @@ class _ActionsPageState extends State<ActionsPage> {
         });
   }
 
+  List<Widget> generateButtons() {
+    List<Widget> ret = [];
+    actions.sort();
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width * .9;
+    double _defaultHeight = height / 6.7;
+    double _defaultWidth = width / 2.05;
+
+    for (var index = 0; index < actions.length / 7; index += 7) {
+      List<Action> labels = actions.sublist(index * 7, (index + 1) * 7);
+      ret.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //labels[0]
+                      ActionListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[0],
+                          actionButtonPressed: actionButtonPressed),
+                      //Use sized boxes for whitespace, not containers
+                      SizedBox(height: height * .05),
+                      //labels[1]
+                      ActionListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight * 2,
+                          label: labels[1],
+                          actionButtonPressed: actionButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[2]
+                      ActionListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[2],
+                          actionButtonPressed: actionButtonPressed),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //lables[3]
+                      ActionListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[3],
+                          actionButtonPressed: actionButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[4]
+                      ActionListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight,
+                          label: labels[4],
+                          actionButtonPressed: actionButtonPressed),
+                      SizedBox(height: height * .05),
+                      //labels[5]
+                      ActionListButton(
+                          defaultWidth: _defaultWidth,
+                          defaultHeight: _defaultHeight * 2,
+                          label: labels[5],
+                          actionButtonPressed: actionButtonPressed),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: height * .05),
+              //labels[6]
+              ActionListButton(
+                  defaultWidth: _defaultWidth * 2.1,
+                  defaultHeight: _defaultHeight,
+                  label: labels[6],
+                  actionButtonPressed: actionButtonPressed),
+              SizedBox(height: height * .05),
+            ],
+          ),
+        ),
+      );
+    }
+    return ret;
+  }
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -137,103 +225,20 @@ class _ActionsPageState extends State<ActionsPage> {
         ),
       ),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          //text box with words to speak
-          TextBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              voiceText: _currentVoiceText,
-              handleVoiceTextChanged: _handleTextUpdate),
-          SizedBox(height: _height * .045),
-          SizedBox(
-            height: _height * .68,
-            child: ListView.builder(
-              itemCount: actions.length ~/ 7,
-              itemBuilder: ((context, int index) {
-                actions.sort();
-                List<Action> labels = actions.sublist(index * 7, (index + 1) * 7);
-                double height = MediaQuery.of(context).size.height;
-                double width = MediaQuery.of(context).size.width * .9;
-                double _defaultHeight = height / 6.7;
-                double _defaultWidth = width / 2.05;
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              //labels[0]
-                              ActionListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[0],
-                                  actionButtonPressed: actionButtonPressed),
-                              //Use sized boxes for whitespace, not containers
-                              SizedBox(height: height * .05),
-                              //labels[1]
-                              ActionListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight * 2,
-                                  label: labels[1],
-                                  actionButtonPressed: actionButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[2]
-                              ActionListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[2],
-                                  actionButtonPressed: actionButtonPressed),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              //lables[3]
-                              ActionListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[3],
-                                  actionButtonPressed: actionButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[4]
-                              ActionListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight,
-                                  label: labels[4],
-                                  actionButtonPressed: actionButtonPressed),
-                              SizedBox(height: height * .05),
-                              //labels[5]
-                              ActionListButton(
-                                  defaultWidth: _defaultWidth,
-                                  defaultHeight: _defaultHeight * 2,
-                                  label: labels[5],
-                                  actionButtonPressed: actionButtonPressed),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: height * .05),
-                      //labels[6]
-                      ActionListButton(
-                          defaultWidth: _defaultWidth * 2.1,
-                          defaultHeight: _defaultHeight,
-                          label: labels[6],
-                          actionButtonPressed: actionButtonPressed),
-                      SizedBox(height: height * .05),
-                    ],
-                  ),
-                );
-              }),
-            ),
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+            children:
+                //text box with words to speak
+                [
+                      TextBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          voiceText: _currentVoiceText,
+                          handleVoiceTextChanged: _handleTextUpdate),
+                      SizedBox(height: _height * .045),
+                    ] +
+                    generateButtons()),
       ),
     );
   }

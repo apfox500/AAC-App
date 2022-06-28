@@ -55,7 +55,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
       ),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: ListView(
           children: <Widget>[
             //Read aloud text

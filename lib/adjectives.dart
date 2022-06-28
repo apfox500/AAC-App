@@ -197,7 +197,7 @@ class _AdjectivePageState extends State<AdjectivePage> {
       ),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
                 TextBox(

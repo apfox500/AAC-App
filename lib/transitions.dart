@@ -31,7 +31,7 @@ class ScaleRoute extends PageRouteBuilder {
         );
 }
 
-//TODO: make this work and then implement for all of the home buttons
+//TO-DO: make this work and then implement for all of the home buttons
 class BackwardsScaleRoute extends PageRouteBuilder {
   final Widget page;
   BackwardsScaleRoute({required this.page})

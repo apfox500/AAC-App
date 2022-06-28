@@ -151,7 +151,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
           leading: widget.leading ?? HomeButton(currentVoiceText: _currentVoiceText)),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
       body: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
                 TextBox(

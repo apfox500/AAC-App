@@ -7,7 +7,8 @@ import 'main.dart';
 import 'textbox.dart';
 
 class CommonSentencesPage extends StatefulWidget {
-  const CommonSentencesPage({Key? key, required this.voiceText, required this.setTextValue})
+  const CommonSentencesPage(
+      {Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
 
   final String voiceText;
@@ -74,6 +75,9 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Common Sentences"),
@@ -85,7 +89,8 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
               page: MyHomePage(
                 title: (FirebaseAuth.instance.currentUser == null)
                     ? "Home Page"
-                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                    : FirebaseAuth.instance.currentUser!.displayName! +
+                        "'s Home Page",
                 voiceText: _currentVoiceText,
               ),
             ),
@@ -316,6 +321,7 @@ class _CommonSentencesPageState extends State<CommonSentencesPage> {
                         offset: const Offset(0, 3), // changes position of shadow
                       ),
                     ],
+
                   ),
                 ),
               ] +

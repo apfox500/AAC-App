@@ -9,7 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
 
 class AdjectivePage extends StatefulWidget {
-  const AdjectivePage({Key? key, required this.voiceText, required this.setTextValue})
+  const AdjectivePage(
+      {Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
@@ -188,7 +189,8 @@ class _AdjectivePageState extends State<AdjectivePage> {
               page: MyHomePage(
                 title: (FirebaseAuth.instance.currentUser == null)
                     ? "Home Page"
-                    : FirebaseAuth.instance.currentUser!.displayName! + "'s Home Page",
+                    : FirebaseAuth.instance.currentUser!.displayName! +
+                        "'s Home Page",
                 voiceText: _currentVoiceText,
               ),
             ),
@@ -208,6 +210,7 @@ class _AdjectivePageState extends State<AdjectivePage> {
                 SizedBox(height: _height * .045),
               ] +
               generateButtons(),
+
         ),
       ),
     );

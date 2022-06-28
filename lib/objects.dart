@@ -6,9 +6,14 @@ import 'main.dart';
 import 'speak_button.dart';
 import 'textbox.dart';
 
+
 //TODO swipe on the button to add "the" before the object
 class ObjectsPage extends StatefulWidget {
-  const ObjectsPage({Key? key, required this.voiceText, required this.setTextValue, this.leading})
+  const ObjectsPage(
+      {Key? key,
+      required this.voiceText,
+      required this.setTextValue,
+      this.leading})
       : super(key: key);
   final String voiceText;
   final ValueChanged<String> setTextValue;
@@ -74,6 +79,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Column(
+
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       //labels[0]
@@ -168,7 +174,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 }
 
-Color randomColor() => Colors.primaries[Random().nextInt(Colors.primaries.length)];
+Color randomColor() =>
+    Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
 //had to call thi sclas 'Thing' because we can't very well call it Object
 class Thing extends Comparable {

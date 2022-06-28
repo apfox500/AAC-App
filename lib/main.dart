@@ -23,9 +23,9 @@ import 'textbox.dart';
 
 //posisible title of thought speak
 
-//TODO: add an undo button that undoes the last thing added
-//TODO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
-//TODO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
+//TO-DO: add an undo button that undoes the last thing added
+//TO-DO: it would be really cool to have an opening animation(for inspiration try changing the height and width to 1 and have those scale up?)
+//TO-DO: when you double click the text box, have a keyboard popup? honestly dont know if this is a good idea(Andrew)
 late GlobalVars globalVars;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -512,6 +512,7 @@ Future<void> getUserData() async {
       double rate = data["rate"];
       String language = data["language"];
       List<dynamic> past = data["past"];
+      List<dynamic> sentences = data["sentences"];
       globalVars.language = language;
       globalVars.pitch = pitch;
       globalVars.rate = rate;
@@ -522,6 +523,7 @@ Future<void> getUserData() async {
       globalVars.tts.setVolume(volume);
       globalVars.past = past.map((e) => e.toString()).toList();
       globalVars.uid = FirebaseAuth.instance.currentUser!.uid;
+      globalVars.sentences = sentences.map((e) => e.toString()).toList();
     },
   );
   globalVars.doc = FirebaseFirestore.instance.collection("Users").doc(globalVars.uid);
@@ -562,6 +564,9 @@ Future<void> getUserData() async {
           } else if (i == 7) {
             //pronouns(7)
             //doesnt sort
+          } else if (i == 8) {
+            //common sentences(8)
+            //doesn't sort
           }
           globalVars.freqs[i][key] = values;
         },

@@ -30,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String? voice;
 
+  final sentenceController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -96,6 +97,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    double sentenceHeight = globalVars.sentences.length * 20;
+    if (sentenceHeight > 250) sentenceHeight = 250;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
@@ -112,10 +115,14 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * .9,
-          child: Column(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView(
             children: [
+              Text(
+                "Personal Info",
+                style: Theme.of(context).textTheme.headline5,
+              ),
               //Name
               TextField(
                 decoration: InputDecoration(
@@ -149,6 +156,75 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 showCursor: true,
               ),
+              //section padding
+              const SizedBox(height: 30),
+              Text(
+                "Custom Sentences",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              //add sentences
+              TextField(
+                controller: sentenceController,
+                decoration: const InputDecoration(
+                    label: Text("Add sentences here"), hintText: "e.g. Can you pass me the salt."),
+                onSubmitted: (sentence) async {
+                  //this adds the sentence on to the list
+                  bool dismissable = false;
+                  showDialog(
+                      barrierDismissible: dismissable,
+                      context: context,
+                      builder: (context) {
+                        return const Center(child: CircularProgressIndicator());
+                      });
+                  globalVars.sentences.add(sentence);
+                  await globalVars.doc!.update({"sentences": globalVars.sentences});
+                  dismissable = true;
+                  Navigator.pop(context);
+                  sentenceController.text = "";
+                  setState(() {});
+                },
+              ),
+              //list of sentences
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: sentenceHeight,
+                child: ListView.builder(
+                  controller: ScrollController(),
+                  itemCount: globalVars.sentences.length,
+                  itemBuilder: ((context, index) {
+                    return GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Center(
+                          child: Text(
+                            globalVars.sentences[index],
+                          ),
+                        ),
+                      ),
+                      onLongPress: () async {
+                        bool dismissable = false;
+                        showDialog(
+                            barrierDismissible: dismissable,
+                            context: context,
+                            builder: (context) {
+                              return const Center(child: CircularProgressIndicator());
+                            });
+                        globalVars.sentences.removeAt(index);
+                        await globalVars.doc!.update({"sentences": globalVars.sentences});
+                        dismissable = true;
+                        Navigator.pop(context);
+                        setState(() {});
+                      },
+                    );
+                  }),
+                ),
+              ),
+              //section padding
+              const SizedBox(height: 30),
+              Text(
+                "Voice Settings",
+                style: Theme.of(context).textTheme.headline5,
+              ),
               //Voice of the speaker
               Row(
                 children: <Widget>[
@@ -171,6 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text('(${volume.toStringAsFixed(2)})'),
                 ],
               ),
+              //ratw
               Row(
                 children: <Widget>[
                   const Text('Rate'),
@@ -191,6 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text('(${rate.toStringAsFixed(2)})'),
                 ],
               ),
+              //pitch
               Row(
                 children: <Widget>[
                   const Text('Pitch'),
@@ -211,6 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text('(${pitch.toStringAsFixed(2)})'),
                 ],
               ),
+              //langauge
               Row(
                 children: <Widget>[
                   const Text('Language'),
@@ -239,9 +318,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              //padding
+              const SizedBox(height: 20),
+              //voice
               Row(
                 children: <Widget>[
                   const Text('Voice'),
@@ -251,6 +330,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text(voice ?? '-'),
                 ],
               ),
+              //Test button
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -259,9 +339,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: const Text("Test"),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              //section padding
+              const SizedBox(height: 30),
 
               //Sign out button
               TextButton(

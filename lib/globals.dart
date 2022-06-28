@@ -11,6 +11,7 @@ class GlobalVars {
   List<String> past = [];
   String? uid;
   DocumentReference? doc;
+  List<String> sentences = [];
   //initialize freqs with 7 empty maps, one for each part of speech
   List<Map<String, List<DateTime>>> freqs = [
     {},

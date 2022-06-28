@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'textbox.dart';
 import 'actions.dart';
 
-//TODO: two step isnt nice
+//TO-DO: two step isnt nice
 class PronounsPage extends StatefulWidget {
   const PronounsPage({Key? key, required this.voiceText, required this.setTextValue})
       : super(key: key);
@@ -745,9 +745,9 @@ class _PronounsPageState extends State<PronounsPage> {
         ),
       ),
       floatingActionButton: SpeakButton(currentVoiceText: _currentVoiceText),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: ListView(
           children: <Widget>[
             //Read aloud text
             TextBox(
